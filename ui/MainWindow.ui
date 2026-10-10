@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>lemonrong</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>842</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>osg3DViewer</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1100</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_Files">
+     <property name="title">
+      <string>Recent Files</string>
+     </property>
+    </widget>
+    <addaction name="actionOpen"/>
+    <addaction name="actionUnload"/>
+    <addaction name="actionSave_As"/>
+    <addaction name="separator"/>
+    <addaction name="menuRecent_Files"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuScene">
+    <property name="title">
+     <string>Scene</string>
+    </property>
+    <addaction name="actionReset_View"/>
+    <addaction name="actionFull_Screen"/>
+    <addaction name="separator"/>
+    <addaction name="actionTexture"/>
+    <addaction name="actionLight"/>
+    <addaction name="actionHighLight"/>
+    <addaction name="actionShadow"/>
+   </widget>
+   <widget class="QMenu" name="menuShader">
+    <property name="title">
+     <string>Shader</string>
+    </property>
+    <addaction name="actionRemove_Shader"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuScene"/>
+   <addaction name="menuShader"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="fileToolBar">
+   <property name="windowTitle">
+    <string>Base ToolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUnload"/>
+   <addaction name="actionLight"/>
+   <addaction name="actionEnableNode"/>
+   <addaction name="actionReset_View"/>
+   <addaction name="separator"/>
+   <addaction name="actionQuit"/>
+   <addaction name="actionSave_As"/>
+   <addaction name="actionOptimize"/>
+   <addaction name="actionBackFace"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_Properties">
+   <property name="windowTitle">
+    <string/>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2"/>
+  </widget>
+  <widget class="QToolBar" name="sceneToolBar">
+   <property name="windowTitle">
+    <string>Scene Toolbar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionTexture"/>
+   <addaction name="actionShadow"/>
+   <addaction name="actionFull_Screen"/>
+   <addaction name="actionHighLight"/>
+   <addaction name="actionLoad_Shader"/>
+  </widget>
+  <widget class="QDockWidget" name="logDock">
+   <property name="toolTip">
+    <string>Log</string>
+   </property>
+   <property name="statusTip">
+    <string>Log</string>
+   </property>
+   <property name="whatsThis">
+    <string>Log</string>
+   </property>
+   <property name="accessibleName">
+    <string>Log</string>
+   </property>
+   <property name="accessibleDescription">
+    <string>Log</string>
+   </property>
+   <property name="floating">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea|Qt::TopDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Log</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QPushButton" name="pushButtonClearLog">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../res/osg3DViewer.qrc">
+         <normaloff>:/osg3DViewer/delete.png</normaloff>:/osg3DViewer/delete.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>619</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <widget class="QTextBrowser" name="textBrowserLog"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="pushButtonSaveLog">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../res/osg3DViewer.qrc">
+         <normaloff>:/osg3DViewer/icon_save.png</normaloff>:/osg3DViewer/icon_save.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_Model">
+   <property name="allowedAreas">
+    <set>Qt::AllDockWidgetAreas</set>
+   </property>
+   <property name="windowTitle">
+    <string/>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QGridLayout" name="gridLayout"/>
+   </widget>
+  </widget>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/preferences.png</normaloff>:/osg3DViewer/preferences.png</iconset>
+   </property>
+   <property name="text">
+    <string>GroupSide</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionUnload">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/play.png</normaloff>:/osg3DViewer/play.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/icon_save.png</normaloff>:/osg3DViewer/icon_save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Language</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/quit.png</normaloff>:/osg3DViewer/quit.png</iconset>
+   </property>
+   <property name="text">
+    <string>NormalUser</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionReset_View">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/collision.png</normaloff>:/osg3DViewer/collision.png</iconset>
+   </property>
+   <property name="text">
+    <string>Collision Choice</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionTexture">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/texture_on.png</normaloff>:/osg3DViewer/texture_on.png</iconset>
+   </property>
+   <property name="text">
+    <string>AccumulateNewModels</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
+   </property>
+  </action>
+  <action name="actionLight">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/stop.png</normaloff>:/osg3DViewer/stop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionHighLight">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/highlight_on.png</normaloff>:/osg3DViewer/highlight_on.png</iconset>
+   </property>
+   <property name="text">
+    <string>RotateTest</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionShadow">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/icon_shadow_on.png</normaloff>:/osg3DViewer/icon_shadow_on.png</iconset>
+   </property>
+   <property name="text">
+    <string>ReplaceModel</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionFull_Screen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/lod_reset.png</normaloff>:/osg3DViewer/lod_reset.png</iconset>
+   </property>
+   <property name="text">
+    <string>SlightAdjust</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+  </action>
+  <action name="actionLoad_Shader">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/background.png</normaloff>:/osg3DViewer/background.png</iconset>
+   </property>
+   <property name="text">
+    <string>SetColor</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+     <kerning>false</kerning>
+    </font>
+   </property>
+  </action>
+  <action name="actionRemove_Shader">
+   <property name="text">
+    <string>Remove Shader</string>
+   </property>
+  </action>
+  <action name="actionBackFace">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/backface_off.png</normaloff>
+     <normalon>:/osg3DViewer/backface_on.png</normalon>:/osg3DViewer/backface_off.png</iconset>
+   </property>
+   <property name="text">
+    <string>AdvanceUser</string>
+   </property>
+   <property name="font">
+    <font>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>true</underline>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
+  </action>
+  <action name="actionOptimize">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/console.png</normaloff>:/osg3DViewer/console.png</iconset>
+   </property>
+   <property name="text">
+    <string>Keyboard</string>
+   </property>
+   <property name="font">
+    <font>
+     <underline>true</underline>
+    </font>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionEnableNode">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/treeview/tree_enable.png</normaloff>:/osg3DViewer/treeview/tree_enable.png</iconset>
+   </property>
+   <property name="text">
+    <string>SetSpeed</string>
+   </property>
+   <property name="iconText">
+    <string>SetSpeed</string>
+   </property>
+  </action>
+  <action name="actionDisableNode">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/treeview/tree_disable.png</normaloff>:/osg3DViewer/treeview/tree_disable.png</iconset>
+   </property>
+   <property name="text">
+    <string>AutoPlan</string>
+   </property>
+  </action>
+  <action name="actionExpandTree">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/expand.png</normaloff>:/osg3DViewer/expand.png</iconset>
+   </property>
+   <property name="text">
+    <string>Expand Tree</string>
+   </property>
+  </action>
+  <action name="actionCollapseTree">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/collapse.png</normaloff>:/osg3DViewer/collapse.png</iconset>
+   </property>
+   <property name="text">
+    <string>Collapse Tree</string>
+   </property>
+  </action>
+  <action name="actionCenterOnNode">
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/center_on_selection.png</normaloff>:/osg3DViewer/center_on_selection.png</iconset>
+   </property>
+   <property name="text">
+    <string>Center on node</string>
+   </property>
+  </action>
+  <action name="actionCenterOnSelection">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../res/osg3DViewer.qrc">
+     <normaloff>:/osg3DViewer/center_on_selection.png</normaloff>:/osg3DViewer/center_on_selection.png</iconset>
+   </property>
+   <property name="text">
+    <string>actionCenterOnSelection</string>
+   </property>
+   <property name="toolTip">
+    <string>actionCenterOnSelection</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../res/osg3DViewer.qrc"/>
+ </resources>
+ <connections/>
+</ui>
