@@ -1,0 +1,143 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef COLLISIONINTERFACE_H
+#define COLLISIONINTERFACE_H
+
+#include <btBulletDynamicsCommon.h>
+
+#include <map>
+#include <string>
+#include <iostream>
+
+#include <osg/MatrixTransform>
+
+#include <osgCollisionDetection/ComputeTrianglesVisitor>
+
+#include <osgCollisionDetection/Exports>
+
+// 用户数据结构，用于存储对象的名字
+struct UserData
+{
+	UserData(std::string n)
+	{
+		name = n;
+	}
+
+    std::string name;
+};
+
+namespace osgCollisionDetection
+{
+
+class OSGCOLLISIONDETECTION_EXPORT CollisionInterface : public osg::Referenced
+{
+public:
+
+	typedef std::map< std::string, btCollisionObject* >  CollisionMap;
+	typedef std::pair< float*, int* > Data;
+	typedef std::pair< btTriangleIndexVertexArray*, Data > DataPair;
+	typedef std::map< std::string, DataPair >  IndexVertexArray;
+
+	static CollisionInterface* Instence();
+	
+	btCollisionWorld* getCollisionWorld();
+	btCollisionObject* getCollisionObject(std::string str);
+
+	bool testCollision(btCollisionObject* bco);
+	bool getCollision();
+
+	void getCollisionObjs(std::string& name0,std::string& name1);
+
+	std::map<std::pair<std::string,std::string>,int>& getAllCollisionObjs();
+
+	virtual void reset(bool deleteAll = false);
+
+	virtual bool addCollisionObject(std::string str, osg::MatrixTransform* mt, int collisionFilterGroup=btBroadphaseProxy::DefaultFilter, int collisionFilterMask=btBroadphaseProxy::AllFilter);
+
+	virtual bool updateCollisionOject(std::string str, osg::MatrixTransform* mt, bool checkCollision = true);
+	virtual bool updateCollisionOject(std::string str, osg::Matrixf& mt, bool checkCollision = true);
+
+	virtual void deleteCollisionObject(std::string& str);
+
+	inline void setDoCollisionTest(bool test){ _doCollisionTest = test; }
+
+protected:
+
+	CollisionInterface();
+	virtual ~CollisionInterface();
+
+	CollisionMap _collisionMap;
+
+	btCollisionWorld* _collisionWorld;
+	btDefaultCollisionConfiguration* _configuration;
+	btCollisionDispatcher* _dispatcher;
+	btBroadphaseInterface* _broadphase;
+
+	bool _haveCollision;
+
+	bool _doCollisionTest;
+
+	std::string name0;
+	std::string name1;
+
+	std::map<std::pair<std::string,std::string>,int> vNames;
+
+	IndexVertexArray _indexVertexArray;
+};
+
+struct OSGCOLLISIONDETECTION_EXPORT btCollisionResult : public btCollisionWorld::ContactResultCallback
+{
+	btCollisionResult():collision(false){};
+
+	virtual	btScalar	addSingleResult(btManifoldPoint& cp,	const btCollisionObjectWrapper* colObj0Wrap,int partId0,int index0,const btCollisionObjectWrapper* colObj1Wrap,int partId1,int index1)
+	{
+		
+#ifdef BULLET_TEST
+		glBegin(GL_LINES);
+		glColor3f(0.0, 1.0, 0);
+
+		btVector3 ptA = cp.getPositionWorldOnA();
+		btVector3 ptB = cp.getPositionWorldOnB();
+
+		glVertex3d(ptA.x(),ptA.y(),ptA.z());
+		glVertex3d(ptB.x(),ptB.y(),ptB.z());
+		glEnd();
+		OSG_WARN<<"Collision"<<std::endl;
+#endif
+
+		const UserData* userData0 = static_cast<const UserData*>(colObj0Wrap->getCollisionObject()->getUserPointer());
+		const UserData* userData1 = static_cast<const UserData*>(colObj1Wrap->getCollisionObject()->getUserPointer());
+
+		if (userData0!=NULL && userData1!=NULL)
+		{
+			// OSG_WARN<<"Collision obj are "<< userData0->name <<" "<<userData1->name <<std::endl;
+			name1 = userData0->name;
+			name2 = userData1->name;
+		}
+
+		collision = true;
+		return 0;
+	}
+
+	bool collision;
+	std::string name1;
+	std::string name2;
+};
+
+
+}
+
+#endif

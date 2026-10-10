@@ -1,0 +1,88 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef SCENEMANAGER_H
+#define SCENEMANAGER_H
+
+#include <osg/observer_ptr>
+#include <osg/Referenced>
+#include <osg/MatrixTransform>
+
+#include <osgViewer/Viewer>
+
+#include <osgDragger/SceneManipulator>
+
+#include <osgVirtualAssembly/PickSelectionHandler>
+
+#include <osgDragger/HudCamera>
+#include <osgDragger/HudDraggerCamera>
+
+#include <Utils/Utils>
+#include <osgVirtualAssembly/Exports>
+
+
+namespace osgVirtualAssembly
+{
+
+class OSGVIRTUALASSEMBLY_EXPORT SceneManager : public osg::Referenced
+{
+public:
+	
+	static SceneManager* Instence();
+
+	virtual void initScene(osg::Node* node, StringList& SL);
+
+	void setDirty(bool dirty){ _dirty = dirty; }
+
+	osgViewer::Viewer* getViewer(){ return _viewer.get(); }
+	
+	PickSelectionHandler* getPickHandler(){ return _pickHandler.get(); }
+
+	virtual void onDestroy()
+	{ 
+		_viewer->stopThreading();
+
+		_viewer = 0;
+	}
+protected:
+
+	SceneManager();
+	virtual ~SceneManager();
+
+	virtual void init();
+
+	osg::ref_ptr<osgViewer::Viewer> _viewer;
+
+	osg::ref_ptr<osg::Group> _root;
+
+	osg::ref_ptr<osg::MatrixTransform> _scene;
+
+	osg::observer_ptr<osg::Geode> _debugGeode;
+
+	osg::observer_ptr<PickSelectionHandler> _pickHandler;
+
+	osg::ref_ptr<osgDragger::HudCamera> _hudCamera;
+
+	osg::ref_ptr<osgDragger::HudDraggerCamera> _hudDraggerCamera;
+
+	bool _dirty;
+	bool _init;
+
+	//TestUi testUI;
+
+};
+
+}
+#endif

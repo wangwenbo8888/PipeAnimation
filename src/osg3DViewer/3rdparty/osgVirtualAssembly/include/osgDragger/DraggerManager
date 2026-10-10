@@ -1,0 +1,80 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef	DRAGGERMANAGER_H
+#define DRAGGERMANAGER_H
+
+#include <vector>
+
+#include <osg/observer_ptr>
+#include <osg/Switch>
+
+#include <osgManipulator/Dragger>
+
+#include <osgDragger/Exports>
+
+#include <Utils/Utils>
+
+namespace osgDragger
+{
+
+	class OSGDRAGGER_EXPORT DraggerManager : public osg::Referenced
+	{
+	public:
+
+		DraggerManager();
+		//static DraggerManager* Instence();
+		
+		virtual void addDragger(osgManipulator::Dragger* dr, bool active);
+
+		virtual void removeDragger(osgManipulator::Dragger* dr);
+		virtual void removeDragger(std::string& str);
+
+		virtual void setActiveDragger(const std::string& str);
+		virtual void setSelections(SelectionList& sl);
+		
+		void setIntersectionMask(osg::Node::NodeMask mask); 
+
+		SelectionList getSelections()
+		{
+			return _selections;
+		}
+		
+		osg::Switch* getRoot();
+
+		virtual void reset();
+
+		virtual void addSelectionToDragger(osg::MatrixTransform* mt, osgManipulator::Dragger* dr);/////////////////rewrite function
+
+	protected:
+
+		virtual ~DraggerManager();
+		
+		virtual void setSelectionsToDragger(SelectionList& sl, osgManipulator::Dragger* dr);
+		virtual void updateDragger(osgManipulator::Dragger* pre, osgManipulator::Dragger* cur);
+
+		osg::ref_ptr<osg::Switch> _root;
+
+		osg::observer_ptr<osgManipulator::Dragger> _activeDragger;
+
+		osg::Node::NodeMask  _traversalMask;
+
+		SelectionList _selections;
+		
+	};
+
+}
+
+#endif

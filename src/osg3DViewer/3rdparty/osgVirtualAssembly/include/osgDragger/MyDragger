@@ -1,0 +1,365 @@
+
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef MYDRAGGER_H
+#define MYDRAGGER_H
+
+#include <osgDragger/BaseDragger>
+
+#include <osg/AutoTransform>
+#include <osg/Geometry>
+#include <osg/Geode>
+#include <osg/ClipNode>
+#include <osg/LineWidth>
+#include <osg/ShapeDrawable>
+#include <osg/PolygonMode>
+
+#include <osgText/Font>
+#include <osgText/Text>
+
+#include <osgManipulator/AntiSquish>
+
+#include <osgDragger/Exports>
+
+namespace osgDragger
+{
+
+	OSGDRAGGER_EXPORT osg::Geode* createPlane();
+	OSGDRAGGER_EXPORT osg::Geode* createAsix(std::string tex, osgText::Font* font);
+
+	template<typename Dragger1DType, typename Dragger2DType> 
+	class /*OSGDRAGGER_EXPORT*/ TemplateMoveDragger : public BaseDragger
+	{
+		public:
+
+			typedef Dragger1DType LineDragger;
+			typedef Dragger2DType PlaneDragger;
+
+			TemplateMoveDragger(void)
+			{
+				float pixelSize = 80.0f;
+				osg::MatrixTransform* scaler = new osg::MatrixTransform;
+				scaler->setMatrix(osg::Matrix::scale(pixelSize, pixelSize, pixelSize));
+
+				osg::AutoTransform *at = new osg::AutoTransform;
+				at->setAutoScaleToScreen(true);
+				at->addChild(scaler);
+
+				osgManipulator::AntiSquish* as = new osgManipulator::AntiSquish;
+				as->addChild(at);
+				addChild(as);
+
+				_xDragger = new LineDragger(osg::Vec3(0.0,0.0,0.0), 
+					osg::Vec3(0.0,0.0,1.0));
+				//_xDragger->setColor(osg::Vec4(0.0f, 0.0f, 0.7f, 1.0f));
+				//addChild(_xDragger.get());
+				scaler->addChild(_xDragger.get());
+				addDragger(_xDragger.get());
+
+				_yDragger = new LineDragger(osg::Vec3(0.0,0.0,0.0), 
+					osg::Vec3(0.0,0.0,1.0));
+				//_yDragger->setColor(osg::Vec4(0.7f, 0.0f, 0.0f, 1.0f));
+				//addChild(_yDragger.get());
+				scaler->addChild(_yDragger.get());
+				addDragger(_yDragger.get());
+
+				_zDragger = new LineDragger(osg::Vec3(0.0,0.0,0.0), 
+					osg::Vec3(0.0,0.0,1.0));
+				//_zDragger->setColor(osg::Vec4(0.0f, 0.7f, 0.0f, 1.0f));
+				//addChild(_zDragger.get());
+				scaler->addChild(_zDragger.get());
+				addDragger(_zDragger.get());
+
+				_xoyDragger = new PlaneDragger();
+				//_xoyDragger->setColor(osg::Vec4(0.7f, 0.7f, 0.7f, 1.0f));
+				//addChild(_xoyDragger.get());
+				scaler->addChild(_xoyDragger.get());
+				addDragger(_xoyDragger.get());
+
+				_xozDragger = new PlaneDragger();
+				//_xozDragger->setColor(osg::Vec4(0.7f, 0.7f, 0.7f, 1.0f));
+				//addChild(_xozDragger.get());
+				scaler->addChild(_xozDragger.get());
+				addDragger(_xozDragger.get());
+
+				_yozDragger = new PlaneDragger();
+				//_yozDragger->setColor(osg::Vec4(0.7f, 0.7f, 0.7f, 1.0f));
+				//addChild(_yozDragger.get());
+				scaler->addChild(_yozDragger.get());
+				addDragger(_yozDragger.get());
+
+				setParentDragger(getParentDragger());
+			}
+
+
+			virtual void setupDefaultGeometry()
+			{
+				osg::Vec4 xColor = osg::Vec4(178/255.0,34/255.0,34/255.0,0.4);
+				osg::Vec4 yColor = osg::Vec4(124/255.0,252/255.0,0/255.0,0.4);
+				osg::Vec4 zColor = osg::Vec4(0,191/255.0,255/255.0,0.4);
+
+				osg::Vec4 pickColor = osg::Vec4(1.0f, 1.0f, 0.0f, 0.6f);
+
+				osg::ref_ptr<osgText::Font> font = osgText::readFontFile("font/arial.ttf");
+
+				_xDragger->addChild( createAsix("x", font.get()) );
+				_yDragger->addChild( createAsix("y", font.get()) );
+				_zDragger->addChild( createAsix("z", font.get()) );
+
+				_xDragger->setColor(xColor);
+				_yDragger->setColor(yColor);
+				_zDragger->setColor(zColor);
+
+
+				// Rotate X-axis dragger appropriately.
+				{
+					osg::Quat rotation; 
+					rotation.makeRotate(osg::Vec3(0.0f, 0.0f, 1.0f), osg::Vec3(1.0f, 0.0f, 0.0f));
+					_xDragger->setMatrix(osg::Matrix(rotation));
+				}
+
+				// Rotate Y-axis dragger appropriately.
+				{
+					osg::Quat rotation; 
+					rotation.makeRotate(osg::Vec3(0.0f, 0.0f, 1.0f), osg::Vec3(0.0f, 1.0f, 0.0f));
+					_yDragger->setMatrix(osg::Matrix(rotation));
+				}
+
+
+				//xoz->xoy
+				{
+					osg::Quat rotation; 
+					rotation.makeRotate(osg::Vec3(0.0f, 0.0f, 1.0f), osg::Vec3(0.0f, 1.0f, 0.0f));
+					_xoyDragger->setMatrix(osg::Matrix(rotation));
+				}
+
+				//xoz->yoz
+				{
+					osg::Quat rotation; 
+					rotation.makeRotate(osg::Vec3(1.0f, 0.0f, 0.0f), osg::Vec3(0.0f, 1.0f, 0.0f));
+					_yozDragger->setMatrix(osg::Matrix(rotation));
+				}
+
+				{
+					osg::ref_ptr<osg::Geode> plane = createPlane();
+
+					_xoyDragger->addChild( plane.get() );
+					_yozDragger->addChild( plane.get() );
+					_xozDragger->addChild( plane.get() );
+
+					_xoyDragger->setColor(zColor);
+					_yozDragger->setColor(xColor);
+					_xozDragger->setColor(yColor);
+
+					//_xoyDragger->setPickColor(pickColor);
+					//_xozDragger->setPickColor(pickColor);
+					//_yozDragger->setPickColor(pickColor);
+				}
+			}
+
+		protected:
+			virtual ~TemplateMoveDragger(void){};
+			
+			 osg::ref_ptr< LineDragger >  _xDragger;
+			 osg::ref_ptr< LineDragger >  _yDragger;
+			 osg::ref_ptr< LineDragger >  _zDragger;
+
+			 osg::ref_ptr< PlaneDragger > _yozDragger;
+			 osg::ref_ptr< PlaneDragger > _xoyDragger;
+			 osg::ref_ptr< PlaneDragger > _xozDragger;
+			 
+	};
+	
+	OSGDRAGGER_EXPORT osg::Geometry* createCircleGeometry(float radius, unsigned int numSegments);
+	OSGDRAGGER_EXPORT osg::Geode* createAxis( float size );
+
+	template<typename Dragger1DType, typename Dragger2DType> 
+	class /*OSGDRAGGER_EXPORT*/ TemplateRotateDragger : public BaseDragger
+	{
+	public:
+		typedef Dragger1DType DraggerCylinder;
+		typedef Dragger2DType DraggerSphere;
+
+		TemplateRotateDragger(void)
+		{
+			float pixelSize = 80.0f;
+			osg::MatrixTransform* scaler = new osg::MatrixTransform;
+			scaler->setMatrix(osg::Matrix::scale(pixelSize, pixelSize, pixelSize));
+
+			osg::AutoTransform *at = new osg::AutoTransform;
+			at->setAutoScaleToScreen(true);
+			at->addChild(scaler);
+
+			osgManipulator::AntiSquish* as = new osgManipulator::AntiSquish;
+			as->addChild(at);
+			addChild(as);
+
+			_xDragger = new DraggerCylinder;
+			scaler->addChild(_xDragger.get());
+			addDragger(_xDragger.get());
+
+			_yDragger = new DraggerCylinder;
+			scaler->addChild(_yDragger.get());
+			addDragger(_yDragger.get());
+
+			_zDragger = new DraggerCylinder;
+			scaler->addChild(_zDragger.get());
+			addDragger(_zDragger.get());
+
+			_xyzDragger = new DraggerSphere;
+			scaler->addChild(_xyzDragger.get());
+			addDragger(_xyzDragger.get());
+
+			_clipPar = new osg::AutoTransform;
+			_clipPar->setAutoRotateMode(osg::AutoTransform::ROTATE_TO_SCREEN);
+			_clipPar->setNormal(osg::Vec3(0, -1, 0));
+			scaler->addChild(_clipPar.get());
+
+			osg::ref_ptr<osg::ClipNode> clipNode = new osg::ClipNode;
+			clipNode->addClipPlane(new osg::ClipPlane(0,0,0,1,0.01f));
+			_clipPar->addChild(clipNode.get());
+
+			scaler->setStateSet(clipNode->getStateSet());
+
+			osg::MatrixTransform* scalerAxis = new osg::MatrixTransform;
+			scalerAxis->setMatrix(osg::Matrix::scale(pixelSize, pixelSize, pixelSize));
+			scalerAxis->addChild(createAxis(0.4f));
+
+			at->addChild(scalerAxis);
+
+			setParentDragger(getParentDragger());
+		};
+		
+		virtual void setupDefaultGeometry()
+		{
+			osg::Geode* geode = new osg::Geode;
+
+			geode->getOrCreateStateSet()->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
+			//geode->getOrCreateStateSet()->setMode(GL_NORMALIZE, osg::StateAttribute::ON);
+
+			{
+				osg::TessellationHints* hints = new osg::TessellationHints;
+				hints->setCreateTop(false);
+				hints->setCreateBottom(false);
+				hints->setCreateBackFace(false);
+
+				osg::Cylinder* cylinder = new osg::Cylinder;
+				cylinder->setHeight(0.15f);
+				osg::ShapeDrawable* cylinderDrawable = new osg::ShapeDrawable(cylinder,hints);
+				geode->addDrawable(cylinderDrawable);
+				osgManipulator::setDrawableToAlwaysCull(*cylinderDrawable);
+				geode->addDrawable(createCircleGeometry(1.0f, 150));
+			}
+
+			// Draw in line mode.
+
+			osg::ref_ptr<osg::PolygonMode> polymode = new osg::PolygonMode;
+			polymode->setMode(osg::PolygonMode::FRONT_AND_BACK,osg::PolygonMode::LINE);
+			osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth;
+			lineWidth->setWidth(1.4f);
+
+			//geode->getOrCreateStateSet()->setAttributeAndModes(polymode.get(), osg::StateAttribute::ON);
+			geode->getOrCreateStateSet()->setAttributeAndModes(lineWidth.get(), osg::StateAttribute::ON);
+
+			_xDragger->addChild(geode);
+			_yDragger->addChild(geode);
+			_zDragger->addChild(geode);
+
+			{
+				osg::ref_ptr<osg::Geode> clipGeode = new osg::Geode;
+				clipGeode->getOrCreateStateSet()->setMode(GL_LIGHTING,osg::StateAttribute::OFF);
+				//clipGeode->getOrCreateStateSet()->setAttributeAndModes(polymode.get(), osg::StateAttribute::ON);
+				clipGeode->getOrCreateStateSet()->setAttributeAndModes(lineWidth.get(), osg::StateAttribute::ON);
+
+				clipGeode->addDrawable(createCircleGeometry(1.0f, 150));
+				clipGeode->addDrawable(createCircleGeometry(1.2f, 150));
+
+				osgManipulator::setMaterialColor(osg::Vec4(188/255.0,143/255.0,143/255.0,255/255.0),*clipGeode);
+
+				_clipPar->addChild(clipGeode);
+			}
+
+			{
+				osg::Quat rotation; 
+				rotation.makeRotate(osg::Vec3(0.0f, 0.0f, 1.0f), osg::Vec3(1.0f, 0.0f, 0.0f));
+				_xDragger->setMatrix(osg::Matrix(rotation));
+			}
+
+			{
+				osg::Quat rotation; 
+				rotation.makeRotate(osg::Vec3(0.0f, 0.0f, 1.0f), osg::Vec3(0.0f, 1.0f, 0.0f));
+				_yDragger->setMatrix(osg::Matrix(rotation));
+			}
+
+			osg::Vec4 xColor = osg::Vec4(178/255.0,34/255.0,34/255.0,0.4);
+			osg::Vec4 yColor = osg::Vec4(124/255.0,252/255.0,0/255.0,0.4);
+			osg::Vec4 zColor = osg::Vec4(0,191/255.0,255/255.0,0.4);
+
+			//osg::Vec4 pickColor = osg::Vec4(1.0f, 1.0f, 0.0f, 0.6f);
+
+			_xDragger->setColor(xColor);
+			_yDragger->setColor(yColor);
+			_zDragger->setColor(zColor);
+
+
+			{
+				osg::Drawable* sphereDrawable = new osg::ShapeDrawable(new osg::Sphere(osg::Vec3(0.0f, 0.0f, 0.0f), 0.95f));
+				osgManipulator::setDrawableToAlwaysCull(*sphereDrawable);
+				osg::Geode* sphereGeode = new osg::Geode;
+				sphereGeode->addDrawable(sphereDrawable);
+				_xyzDragger->addChild(sphereGeode);
+			}
+
+		};
+
+	protected:
+		virtual ~TemplateRotateDragger(){};
+
+	protected:
+
+		osg::ref_ptr<DraggerCylinder> _xDragger;
+		osg::ref_ptr<DraggerCylinder> _yDragger;
+		osg::ref_ptr<DraggerCylinder> _zDragger;
+
+		osg::ref_ptr<DraggerSphere>   _xyzDragger;
+
+		osg::ref_ptr<osg::AutoTransform> _clipPar;
+	};
+
+	class OSGDRAGGER_EXPORT ScaleDragger : public BaseDragger
+	{
+	public:	
+		ScaleDragger(void);
+
+		virtual void setupDefaultGeometry();
+
+	protected:
+		virtual ~ScaleDragger();
+		
+	protected:
+		osg::ref_ptr<osgManipulator::Scale1DDragger> _xDragger;
+		osg::ref_ptr<osgManipulator::Scale1DDragger> _yDragger;
+		osg::ref_ptr<osgManipulator::Scale1DDragger> _zDragger;
+	
+	};
+
+	typedef TemplateMoveDragger<osgManipulator::Translate1DDragger, osgManipulator::Translate2DDragger> MoveDragger;
+	
+	typedef TemplateRotateDragger<osgManipulator::RotateCylinderDragger, osgManipulator::RotateSphereDragger> RotateDragger;
+}
+
+#endif
+

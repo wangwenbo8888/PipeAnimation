@@ -1,0 +1,57 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef CLEARDEPTH_H
+#define CLEARDEPTH_H
+
+#include <osg/gl>
+#include <osg/StateAttribute>
+
+#include <osgDragger/Exports>
+
+
+namespace osgDragger
+{
+
+#define CLEARDEPTH_ID 0x1000
+
+
+class OSGDRAGGER_EXPORT ClearDepth : public osg::StateAttribute
+{
+public:
+
+	ClearDepth()
+	{
+
+	}
+	ClearDepth(const ClearDepth& cf, const osg::CopyOp& copyop=osg::CopyOp::SHALLOW_COPY):
+	osg::StateAttribute(cf,copyop)
+	{
+
+	}
+
+	META_StateAttribute( osg, ClearDepth, (osg::StateAttribute::Type)CLEARDEPTH_ID );
+	
+	virtual int compare( const osg::StateAttribute& sa ) const;
+
+	virtual void apply(osg::State& state) const;
+
+protected:
+	virtual ~ClearDepth();
+};
+
+
+}
+#endif

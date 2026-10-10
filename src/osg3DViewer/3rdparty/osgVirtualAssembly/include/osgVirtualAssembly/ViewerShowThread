@@ -1,0 +1,68 @@
+
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef VIEWERSHOWTHREAD_H
+#define VIEWERSHOWTHREAD_H
+
+#include <OpenThreads/Thread>
+#include <osg/ref_ptr>
+#include <osgViewer/ViewerBase>
+
+#include <QApplication>
+
+#include <osgVirtualAssembly/Exports>
+
+
+namespace osgVirtualAssembly
+{
+
+class OSGVIRTUALASSEMBLY_EXPORT ViewerShowThread : public OpenThreads::Thread
+{
+public:
+
+	ViewerShowThread(osgViewer::ViewerBase* viewerBase, bool doQApplicationExit):
+	  _viewerBase(viewerBase),
+		  _doQApplicationExit(doQApplicationExit) {}
+
+	  ~ViewerShowThread()
+	  {
+		  cancel();
+		  while(isRunning())
+		  {
+			  OpenThreads::Thread::YieldCurrentThread();
+		  }
+	  }
+
+	  int cancel()
+	  {
+		  _viewerBase->setDone(true);
+		  return 0;
+	  }
+
+	  void run()
+	  {
+		  int result = _viewerBase->run();
+
+		 // if (_doQApplicationExit) QApplication::exit(result);
+	  }
+
+protected:
+	  osg::ref_ptr<osgViewer::ViewerBase> _viewerBase;
+	  bool _doQApplicationExit;
+};
+
+}
+#endif

@@ -1,0 +1,109 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef ANIMATIONMANAGER_H
+#define ANIMATIONMANAGER_H
+
+#include <osg/Timer>
+
+#include <osg/MatrixTransform>
+#include <osg/NodeVisitor>
+#include <osg/AnimationPath>
+#include <osg/observer_ptr>
+
+#include <osgAnimation/BasicAnimationManager>
+
+#include <map>
+
+#include <osgVirtualAssembly/Exports>
+
+namespace osgVirtualAssembly
+{
+
+class OSGVIRTUALASSEMBLY_EXPORT AnimationManager : public osg::NodeVisitor
+{
+public:
+	typedef osg::AnimationPath::LoopMode LoopMode;
+
+	typedef std::pair< osg::observer_ptr<osg::NodeCallback>, osg::ref_ptr<osg::AnimationPathCallback> > AnimationPair;
+
+	typedef std::map< osg::observer_ptr<osg::MatrixTransform> , AnimationPair > AnimationMap;
+
+	typedef std::map< osg::observer_ptr<osg::MatrixTransform> , osg::Matrix > OriginalPosition;
+
+	META_NodeVisitor(osgVirtualAssembly, AnimationManager)
+	
+	static AnimationManager* Instence();
+
+	virtual void apply(osg::Node& node);
+	
+	void setPause(bool pause);
+	void setReset(bool reset);
+	void setLoopMode(LoopMode lm);//设置apply应用到的属性
+
+	void setPlayIndex(unsigned int i);
+	//0 都不播放
+	//1 原始
+	//2 记录
+	void setCurrentPlay(bool play);
+	void setCurrentReset(bool res);
+	void setCurrentMode(LoopMode lm);
+	void Dirty();
+
+	virtual void insertControlPoint(osg::MatrixTransform* mt);
+
+	virtual void reset();
+
+	virtual void resumePosition(int i);
+
+	virtual void startRecord();
+	virtual void endRecord();
+
+	inline bool getRecord(){ return _record; }
+	inline void setRecord(bool record){ _record = record; }
+
+protected:
+	
+	AnimationManager();
+	virtual ~AnimationManager();
+
+	virtual void setPlayAnimation(unsigned int i , bool play ,bool res , LoopMode lm);
+	//i == 0 播放原始的
+	//i == 1 播放记录的 
+	//i == 2 都不播放
+
+	osg::observer_ptr<osgAnimation::BasicAnimationManager> _bam;
+
+	AnimationMap _animationMap;
+	OriginalPosition _originalPosition;
+
+
+	bool _applyPause;
+	bool _applyReset;
+	LoopMode _applyLoopMode;
+	
+	osg::Timer_t _startTime;
+	bool _record;
+
+	unsigned int _playIndex;
+	bool _currentPlay;
+	bool _currentReset;
+	LoopMode _currentLoopMode;
+
+};
+
+
+}
+#endif

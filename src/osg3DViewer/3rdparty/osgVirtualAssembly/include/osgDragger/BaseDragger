@@ -1,0 +1,99 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef BASEDRAGGER_H
+#define BASEDRAGGER_H
+
+#include <osgManipulator/Translate1DDragger>
+#include <osgManipulator/Translate2DDragger>
+#include <osgManipulator/RotateCylinderDragger>
+#include <osgManipulator/RotateSphereDragger>
+#include <osgManipulator/Scale1DDragger>
+
+#include <osgDragger/Exports>
+
+namespace osgDragger
+{
+
+	class OSGDRAGGER_EXPORT Move1DDragger : public osgManipulator::Translate1DDragger
+	{
+	public:
+		Move1DDragger();
+		Move1DDragger(const osg::Vec3d& s, const osg::Vec3d& e);
+		META_OSGMANIPULATOR_Object(osgDragger,Move1DDragger);
+
+		virtual void dispatch(osgManipulator::MotionCommand& command);
+	};
+
+	class OSGDRAGGER_EXPORT Move2DDragger : public osgManipulator::Translate2DDragger
+	{
+	public:
+		Move2DDragger();
+		Move2DDragger(const osg::Plane& plane);
+		META_OSGMANIPULATOR_Object(osgDragger,Move2DDragger);
+
+		virtual void dispatch(osgManipulator::MotionCommand& command);
+	};
+
+	class OSGDRAGGER_EXPORT CylinderDragger : public osgManipulator::RotateCylinderDragger
+	{
+	public:
+		CylinderDragger();
+		META_OSGMANIPULATOR_Object(osgDragger,CylinderDragger);
+
+		virtual void dispatch(osgManipulator::MotionCommand& command);
+	};
+
+	class OSGDRAGGER_EXPORT SphereDragger : public osgManipulator::RotateSphereDragger
+	{
+	public:
+		SphereDragger();
+		META_OSGMANIPULATOR_Object(osgDragger,SphereDragger);
+
+		virtual void dispatch(osgManipulator::MotionCommand& command);
+	};
+
+	class OSGDRAGGER_EXPORT BaseDragger :  public osgManipulator::CompositeDragger
+	{
+
+	public:
+		
+		META_OSGMANIPULATOR_Object(osgDragger,BaseDragger)
+
+		virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
+
+		virtual bool handle(const osgManipulator::PointerInfo& pi, const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
+
+		virtual void handlePushMessage(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa){};
+
+		virtual void handleDragMessage(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa){};
+
+		virtual void handleReleaseMessage(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa){};
+
+
+		void setIntersectionCamera(osg::Camera* camera);
+
+	protected:
+		BaseDragger();
+		virtual ~BaseDragger();
+		
+		osg::observer_ptr<osg::Camera> _intersectionCamera;
+		
+	};
+
+
+}
+
+#endif // BASEDRAGGER_H

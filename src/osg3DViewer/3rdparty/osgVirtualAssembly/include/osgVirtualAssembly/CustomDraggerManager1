@@ -1,0 +1,50 @@
+
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef CUSTOMDRAGGERMANAGER_H
+#define CUSTOMDRAGGERMANAGER_H
+
+
+#include <osgVirtualAssembly/Exports>
+
+#include <osgDragger/DraggerManager>
+
+namespace osgVirtualAssembly
+{
+
+class OSGVIRTUALASSEMBLY_EXPORT CustomDraggerManager : public osgDragger::DraggerManager
+{
+public:
+
+	static CustomDraggerManager* Instence();
+
+	CustomDraggerManager();
+	~CustomDraggerManager();
+
+	void SetCenter(osg::Vec3 center);
+
+	osg::Vec3 GetCenter();
+
+	virtual void addSelectionToDragger(osg::MatrixTransform* mt, osgManipulator::Dragger* dr);
+
+private:
+   osg::Vec3 _center;
+
+};
+
+}
+
+#endif

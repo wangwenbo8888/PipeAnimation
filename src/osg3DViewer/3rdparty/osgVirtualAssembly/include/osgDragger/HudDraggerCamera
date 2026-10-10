@@ -1,0 +1,46 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef HUDDRAGGERCAMERA_H
+#define HUDDRAGGERCAMERA_H
+
+#include <osg/Camera>
+#include <osg/MatrixTransform>
+
+#include <osgDragger/Exports>
+
+namespace osgDragger
+{
+
+	class OSGDRAGGER_EXPORT HudDraggerCamera : public osg::Referenced
+	{
+	public:
+		HudDraggerCamera(osg::Camera* main_camera, osg::Group* node);
+
+		void setScene(osg::Node* node);
+
+	protected:
+		virtual ~HudDraggerCamera();
+
+		osg::ref_ptr<osg::Camera> _hudCamera;
+		osg::ref_ptr<osg::MatrixTransform> _mt;
+
+		osg::observer_ptr<osg::Camera> _mainCamera;
+
+	};
+
+}
+
+#endif

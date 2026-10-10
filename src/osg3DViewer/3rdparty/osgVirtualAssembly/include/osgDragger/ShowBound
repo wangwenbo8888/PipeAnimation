@@ -1,0 +1,133 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef SHOWBOUND_H
+#define SHOWBOUND_H
+
+#include <osg/MatrixTransform>
+#include <osg/ComputeBoundsVisitor>
+#include <osg/Geometry>
+#include <osg/Geode>
+#include <osg/Group>
+#include <osg/Switch>
+#include <osg/observer_ptr>
+
+#include <Utils/Utils>
+
+#include <osgDragger/Exports>
+
+namespace osgDragger
+{
+
+	class OSGDRAGGER_EXPORT BoundingBoxCallback : public osg::NodeCallback
+	{
+	public:
+		virtual void operator()(osg::Node* node, osg::NodeVisitor* nv )
+		{
+			osg::BoundingBox bb;
+			bool hasNode = false;
+			for ( unsigned int i=0; i<_nodesToCompute.size(); ++i )
+			{
+				osg::Node* node = _nodesToCompute[i].get();
+				if (node)
+				{
+					osg::ComputeBoundsVisitor cbbv;
+					node->accept( cbbv );
+
+					osg::BoundingBox localBB = cbbv.getBoundingBox();
+					osg::Matrix localToWorld = osg::computeLocalToWorld( node->getParent(0)->getParentalNodePaths()[0] );
+					for ( unsigned int i=0; i<8; ++i )
+						bb.expandBy( localBB.corner(i) * localToWorld );
+
+					hasNode = true;
+				}
+			}
+
+			// printf("model center {%f, %f, %f}\n", bb.center().x(),  bb.center().y(),  bb.center().z());
+			if (_pCenter!=nullptr)
+			{
+				_pCenter->x() = bb.center().x();
+				_pCenter->y() = bb.center().y();
+				_pCenter->z() = bb.center().z();
+			}
+
+			if (!hasNode)
+			{
+				return;
+			}
+			
+			osg::MatrixTransform* trans = static_cast<osg::MatrixTransform*>(node);
+			trans->setMatrix(
+				osg::Matrix::scale(bb.xMax()-bb.xMin(), bb.yMax()-bb.yMin(), bb.zMax()-bb.zMin()) *
+				osg::Matrix::translate(bb.center()) );
+		}
+
+		//osg::NodePath _nodesToCompute;
+		typedef std::vector< osg::observer_ptr<osg::Node> > NodeVector;
+		NodeVector _nodesToCompute;
+		osg::Vec3* _pCenter;
+	};
+
+	class OSGDRAGGER_EXPORT ShowBound : public osg::Referenced
+	{
+		public:
+
+			static ShowBound* Instence();
+
+			virtual void setSelections(SelectionList& sl);
+
+			virtual osg::Geode* createBound(osg::Vec4& color);
+			
+			osg::Group* getRoot();
+
+			inline bool getShow(){ return _show; }
+			void setShow(bool show);
+
+			void setColor(osg::Vec4& color);
+			void setCollisionColor(osg::Vec4& color);
+
+			osg::Vec3 getCenter();
+
+			void collision();
+			void resetCollision();
+			
+			virtual void reset();
+			
+			inline void setNodeMask(osg::Node::NodeMask nodeMask)
+			{
+				_root->setNodeMask(nodeMask);
+			}
+		protected:
+
+			ShowBound();
+			virtual ~ShowBound();
+			
+			osg::ref_ptr<osg::Geode> _bound;
+
+			osg::ref_ptr<osg::Switch> _root;
+
+			osg::Vec3 _center;
+
+			bool _show;
+			
+			osg::Vec4 _color;
+			osg::Vec4 _collisionColor;
+
+	};
+
+
+}
+
+#endif

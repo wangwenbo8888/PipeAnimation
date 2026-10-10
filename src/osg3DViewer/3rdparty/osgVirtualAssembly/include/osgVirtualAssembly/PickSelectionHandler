@@ -1,0 +1,93 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef PICKSELECTIONHANDLER_H
+#define PICKSELECTIONHANDLER_H
+
+#include <OpenThreads/ScopedLock>
+#include <OpenThreads/Mutex>
+
+#include <osg/observer_ptr>
+#include <osg/Switch>
+#include <osg/MatrixTransform>
+
+#include <osgGA/GUIEventHandler>
+
+#include <osgViewer/Viewer>
+
+#include <osgManipulator/Dragger>
+
+#include <vector>
+#include <set>
+
+#include <Utils/Utils>
+
+#include <osgVirtualAssembly/Exports>
+
+
+namespace osgVirtualAssembly
+{
+
+class OSGVIRTUALASSEMBLY_EXPORT PickSelectionHandler : public osgGA::GUIEventHandler 
+{
+	
+public:
+
+	//typedef std::vector< osg::ref_ptr<osg::MatrixTransform> > SelectionList;
+	typedef StringList NameList;
+
+	PickSelectionHandler();
+	PickSelectionHandler(NameList& nl);
+
+	virtual bool handle (const osgGA::GUIEventAdapter& ea,osgGA::GUIActionAdapter& aa);
+	
+	SelectionList getSelections();
+
+	virtual osg::MatrixTransform* pick(osgViewer::Viewer* viewer, float x, float y);
+	
+	void setNameList(NameList& nl);
+	
+	void setIntersectionMask(osg::Node::NodeMask mask);
+
+	void addCommand(unsigned int i);
+
+	void reset();
+	
+
+	void setDirty(bool dirty){ _dirty = dirty; }
+	void setNode(osg::Node* node){ _addNode = node; }
+	void setNewname(NameList& nl){ _newName = nl; }
+
+protected:
+	~PickSelectionHandler(void);
+
+	SelectionList _pickSelections;
+	NameList _selectionNames;
+
+	osg::Node::NodeMask _intersectionMask;
+	
+	OpenThreads::Mutex _mutex;
+	
+	std::vector<unsigned int> _commands;
+
+	bool _dirty;
+	osg::ref_ptr<osg::Node> _addNode;
+	NameList _newName;
+};
+
+}
+#endif
+
+

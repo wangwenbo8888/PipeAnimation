@@ -1,0 +1,64 @@
+
+/* -*-c++-*- OpenSceneGraph - Copyright (C) 1998-2011 Liu zhiyu
+ *
+ * This library is open source and may be redistributed and/or modified under  
+ * the terms of the OpenSceneGraph Public License (OSGPL) version 0.0 or 
+ * (at your option) any later version.  The full license is in LICENSE file
+ * included with this distribution, and on the openscenegraph.org website.
+ * 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * OpenSceneGraph Public License for more details.
+*/
+// Written by Liu zhiyu
+
+#ifndef FINDSELECTIONVISITOR_H
+#define FINDSELECTIONVISITOR_H
+
+#include <algorithm>
+#include <iostream>
+
+#include <osg/NodeVisitor>
+#include <osg/Geode>
+
+#include <Utils/Utils>
+
+#include <osgVirtualAssembly/Exports>
+
+namespace osgVirtualAssembly
+{
+
+class OSGVIRTUALASSEMBLY_EXPORT FindSelectionVisitor : public osg::NodeVisitor
+{
+public:
+	FindSelectionVisitor();
+	FindSelectionVisitor(StringList& stringlist);
+
+	~FindSelectionVisitor();
+
+	//MEAT_NodeVisitor("osg","FindSelectionVisitor");
+	void reset();
+
+	void setSelectionNames(StringList& sl);
+	SelectionMap getSelectionMap();
+	osg::MatrixTransform* getSelection(std::string& str);
+
+	virtual void apply(osg::Node& node);
+	virtual void apply(osg::Group& node);
+	virtual void apply(osg::Geode& node);
+	virtual void apply(osg::MatrixTransform& node);
+
+
+protected:
+
+	void handleNode(osg::Node& node);
+
+	StringList _selectionNames;
+	SelectionMap _selectionMap;
+
+	
+};
+
+}
+#endif
