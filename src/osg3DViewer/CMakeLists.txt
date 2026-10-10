@@ -36,6 +36,15 @@ QT4_ADD_TRANSLATION (APP_QM ${TRANSLATIONS})
 
 INCLUDE_DIRECTORIES(include "./" "./3rdparty/qtpropertybrowser" "./3rdparty/osgWorks" ${PROJECT_BINARY_DIR}/src/${PROJECT_NAME})
 
+# Prebuilt custom SDK: osgDragger / osgVirtualAssembly / osgCollisionDetection / Utils (Win32)
+SET(OSGVA_SDK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/osgVirtualAssembly)
+# Bullet Physics 2.88 headers (required by osgCollisionDetection headers)
+# - src/            : headers from bullet3 tag 2.88
+# - <root>          : provides Demos/OpenGL/GLDebugDrawer.h (from tag 2.82, needed by DebugDraw)
+SET(BULLET_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bullet-2.88/src
+                        ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/bullet-2.88)
+INCLUDE_DIRECTORIES(${OSGVA_SDK_DIR}/include ${BULLET_INCLUDE_DIRS})
+
 # resource compilation for MinGW
 IF(MINGW)
     ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${EXE_NAME}ico.o 
@@ -59,7 +68,7 @@ ENDIF(MSVC)
 #ADD_DEFINITIONS(-DOSG3DVIEWER_LIBRARY)
 ADD_EXECUTABLE(${EXE_NAME} WIN32 ${SOURCES} ${HEADERS} ${APP_UIS_H} ${APP_MOC_SRCS} ${APP_RESOURCES} ${APP_QM})
 
-TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES} 
+TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES}
 	debug OpenThreads${OSG_DEBUG_POSTFIX} optimized OpenThreads
     debug osg${OSG_DEBUG_POSTFIX}         optimized osg
 	debug osgGA${OSG_DEBUG_POSTFIX}       optimized osgGA
@@ -68,7 +77,13 @@ TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES}
 	debug osgFX${OSG_DEBUG_POSTFIX}       optimized osgFX
 	debug osgQt${OSG_DEBUG_POSTFIX}       optimized osgQt
     debug osgDB${OSG_DEBUG_POSTFIX}       optimized osgDB
-    debug osgUtil${OSG_DEBUG_POSTFIX}     optimized osgUtil)#${OSGWORKS_LIBRARIES}
+    debug osgUtil${OSG_DEBUG_POSTFIX}     optimized osgUtil
+    debug osgText${OSG_DEBUG_POSTFIX}     optimized osgText
+    debug osgManipulator${OSG_DEBUG_POSTFIX} optimized osgManipulator
+    # prebuilt custom SDK (Win32 x86)
+    debug ${OSGVA_SDK_DIR}/lib/osgDraggerd.lib            optimized ${OSGVA_SDK_DIR}/lib/osgDragger.lib
+    debug ${OSGVA_SDK_DIR}/lib/osgVirtualAssemblyd.lib    optimized ${OSGVA_SDK_DIR}/lib/osgVirtualAssembly.lib
+    debug ${OSGVA_SDK_DIR}/lib/osgCollisionDetectiond.lib optimized ${OSGVA_SDK_DIR}/lib/osgCollisionDetection.lib)
 
 
 IF(WIN32)
@@ -103,3 +118,13 @@ INSTALL(
     FILES       ${HEADERS}
     DESTINATION ${INSTALL_INCDIR}/${EXE_NAME}
 )
+
+# Copy custom SDK DLLs next to the executable (both configs, harmless)
+IF(WIN32)
+    FOREACH(_dll osgDragger osgDraggerd osgVirtualAssembly osgVirtualAssemblyd osgCollisionDetection osgCollisionDetectiond)
+        ADD_CUSTOM_COMMAND(TARGET ${EXE_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${OSGVA_SDK_DIR}/lib/${_dll}.dll"
+                "${EXECUTABLE_OUTPUT_PATH}")
+    ENDFOREACH()
+ENDIF(WIN32)

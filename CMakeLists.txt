@@ -56,7 +56,7 @@ ENDIF()
 #FIND_PACKAGE(Doxygen)
 FIND_PACKAGE(OpenGL)
 FIND_PACKAGE(Qt4 COMPONENTS QtCore QtGui QtXml QtOpenGl REQUIRED)
-FIND_PACKAGE(OpenSceneGraph REQUIRED osg  osgGA osgViewer osgUtil osgShadow osgFX osgDB osgUtil osgQt)
+FIND_PACKAGE(OpenSceneGraph REQUIRED osg osgGA osgViewer osgUtil osgShadow osgFX osgDB osgText osgManipulator osgQt)
 
 
 #FIND_PACKAGE(PhysX)
