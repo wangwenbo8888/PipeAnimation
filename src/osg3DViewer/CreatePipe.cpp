@@ -1,4 +1,4 @@
-ï»¿
+
 #include "CreatePipe.h"
 #include "osg/Geode"
 #include "osg/Geometry"
@@ -13,7 +13,7 @@
 
 #include "ExportStl.h"
 
-// ç®¡å­åŠå¾„ç¼©å°çš„é‡
+// ¹Ü×Ó°ë¾¶ËõĞ¡µÄÁ¿
 const double Pipe_Shrink = 2.0;
 
 PipeStraight::PipeStraight(double length,double radius,int step)
@@ -29,7 +29,7 @@ PipeStraight::~PipeStraight()
 {
 
 }
-// åˆ¤æ–­æ˜¯å¤§ç«¯å­˜å‚¨è¿˜æ˜¯å°ç«¯å­˜å‚¨
+// ÅĞ¶ÏÊÇ´ó¶Ë´æ´¢»¹ÊÇĞ¡¶Ë´æ´¢
 static bool we_are_little_endian()
 {
 	int tmp = 1;
@@ -134,7 +134,7 @@ osg::Geode* PipeStraight::Create()
 
 	aGeode->addDrawable(aGeometry);
 
-	//Â setÂ materialÂ forÂ theÂ surface
+	//?set?material?for?the?surface
 	osg::ref_ptr<osg::StateSet>	aStateSet = aGeode->getOrCreateStateSet();
 	osg::ref_ptr<osg::Material>	aMaterial = new osg::Material();
 
@@ -247,16 +247,16 @@ osg::ref_ptr<osg::Geode> PipeStraight::Create(Vec3 pos,Vec3 nor)
 
 	}
 
-	aGeometry->setVertexArray(aPoints);//å°†åæ ‡è®¾ç½®åˆ°å‡ ä½•ä½“èŠ‚ç‚¹ä¸­
-	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//æ·»åŠ æ³•çº¿åˆ°å‡ ä½•ä½“ä¸­
+	aGeometry->setVertexArray(aPoints);//½«×ø±êÉèÖÃµ½¼¸ºÎÌå½ÚµãÖĞ
+	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//Ìí¼Ó·¨Ïßµ½¼¸ºÎÌåÖĞ
 
 	osg::ref_ptr<osg::DrawArrays> Primitives1 = new osg::DrawArrays(GL_TRIANGLES, 0, aNormals->size());
 	aGeometry->addPrimitiveSet(Primitives1.get());
 
-	//å…³é—­æ˜¾ç¤ºåˆ—è¡¨ï¼Œå¼€å¯é¡¶ç‚¹ç¼“å­˜å¯¹è±¡
+	//¹Ø±ÕÏÔÊ¾ÁĞ±í£¬¿ªÆô¶¥µã»º´æ¶ÔÏó
 	aGeometry->setUseVertexBufferObjects(true);
 
-	//å®šä¹‰ä¸€ä¸ªå‡ ä½•ç»„ç»“ç‚¹ï¼Œå¹¶æŠŠå‡ ä½•ä½“ç»“ç‚¹åŠ å…¥åˆ°å‡ ä½•ç»„ç»“ç‚¹å½“ä¸­
+	//¶¨ÒåÒ»¸ö¼¸ºÎ×é½áµã£¬²¢°Ñ¼¸ºÎÌå½áµã¼ÓÈëµ½¼¸ºÎ×é½áµãµ±ÖĞ
 	osg::ref_ptr<osg::Geode> geode=new osg::Geode();
 	//geode->addDrawable(geom.get());
 
@@ -265,7 +265,7 @@ osg::ref_ptr<osg::Geode> PipeStraight::Create(Vec3 pos,Vec3 nor)
 	stateset->setMode( GL_LIGHTING, osg::StateAttribute::ON);
 	stateset->setMode( GL_LIGHT1, osg::StateAttribute::ON);
 
-	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ç”¨äºé€‰æ‹©å…‰ç…§æ¨¡å‹ï¼ˆå¦‚å…¨å±€å…‰å’ŒåŒé¢å…‰ç…§ï¼‰
+	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ÓÃÓÚÑ¡Ôñ¹âÕÕÄ£ĞÍ£¨ÈçÈ«¾Ö¹âºÍË«Ãæ¹âÕÕ£©
 	lightModel->setTwoSided(true);
 	stateset->setAttributeAndModes(lightModel.get() );
 
@@ -275,11 +275,11 @@ osg::ref_ptr<osg::Geode> PipeStraight::Create(Vec3 pos,Vec3 nor)
 	mat->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 0.0f, 1.0f));
 	mat->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4(0.3,0.3,0.3,1.0f));
 	mat->setShininess(osg::Material::FRONT_AND_BACK, 100.0f );
-	//2016.06.01. é€šå¸¸ï¼Œå¯¹ç¯å¢ƒå…‰ä¸æ¼«åå°„å…‰çš„åå°„ç¨‹åº¦å†³å®šäº†ææ–™çš„é¢œè‰²ï¼Œå¹¶ä¸”å®ƒä»¬åº”è¯¥å€¼ç›¸åŒã€‚
+	//2016.06.01. Í¨³££¬¶Ô»·¾³¹âÓëÂş·´Éä¹âµÄ·´Éä³Ì¶È¾ö¶¨ÁË²ÄÁÏµÄÑÕÉ«£¬²¢ÇÒËüÃÇÓ¦¸ÃÖµÏàÍ¬¡£
 	stateset->setAttributeAndModes(mat.get(),osg::StateAttribute::ON);
 
 	//stateset->setAttributeAndModes(mat,osg::StateAttribute::OVERRIDE|osg::StateAttribute::ON);
-    //stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);  //ä¸€å®šè¦åŠ ä¸Šè¿™å¥è¯ï¼Œå¦åˆ™ç½‘æ ¼å†…éƒ¨å¯¹è±¡çœ‹ä¸è§
+    //stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);  //Ò»¶¨Òª¼ÓÉÏÕâ¾ä»°£¬·ñÔòÍø¸ñÄÚ²¿¶ÔÏó¿´²»¼û
 
 	aGeometry->setStateSet(stateset);
 	geode->addDrawable(aGeometry.get());
@@ -294,8 +294,8 @@ osg::ref_ptr<osg::Geode> PipeStraight::Create(Vec3 pos,Vec3 nor)
 PipeArc::PipeArc(double rotateAngle,double angle,double radius0,double radius1,int step)
 	: m_dRotateAngle(rotateAngle)
 	, m_dAngle(angle)
-	, m_dRadius0(radius0)  // å¼¯ç®¡ä¸­å¿ƒåˆ°åœ†å¼§åœ†å¿ƒè·ç¦»
-	, m_dRadius1(radius1)  // å¼¯ç®¡åŠå¾„
+	, m_dRadius0(radius0)  // Íä¹ÜÖĞĞÄµ½Ô²»¡Ô²ĞÄ¾àÀë
+	, m_dRadius1(radius1)  // Íä¹Ü°ë¾¶
 	, m_iStep(step)
 {
 	m_dRadius1 -= Pipe_Shrink;
@@ -305,7 +305,7 @@ PipeArc::~PipeArc()
 {
 
 }
-// è®¡ç®—ä¸‰è§’é¢ç‰‡æ³•å‘é‡
+// ¼ÆËãÈı½ÇÃæÆ¬·¨ÏòÁ¿
 osg::Vec3 CalcTriNormal(const osg::Vec3& p0,const osg::Vec3& p1,const osg::Vec3& p2)
 {
 	Point3D p00(p0.x(),p0.y(),p0.z());
@@ -433,8 +433,8 @@ osg::ref_ptr<osg::Geode> PipeArc::Create(osg::Vec3 pos,osg::Vec3 nor)
 		}
 	}
 
-	aGeometry->setVertexArray(aPoints);//å°†åæ ‡è®¾ç½®åˆ°å‡ ä½•ä½“èŠ‚ç‚¹ä¸­
-	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//æ·»åŠ æ³•çº¿åˆ°å‡ ä½•ä½“ä¸­
+	aGeometry->setVertexArray(aPoints);//½«×ø±êÉèÖÃµ½¼¸ºÎÌå½ÚµãÖĞ
+	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//Ìí¼Ó·¨Ïßµ½¼¸ºÎÌåÖĞ
 
 #if 0
     static int i = 0;
@@ -449,10 +449,10 @@ osg::ref_ptr<osg::Geode> PipeArc::Create(osg::Vec3 pos,osg::Vec3 nor)
 	osg::ref_ptr<osg::DrawArrays> Primitives1 = new osg::DrawArrays(GL_TRIANGLES, 0, aNormals->size());
 	aGeometry->addPrimitiveSet(Primitives1.get());
 
-	//å…³é—­æ˜¾ç¤ºåˆ—è¡¨ï¼Œå¼€å¯é¡¶ç‚¹ç¼“å­˜å¯¹è±¡
+	//¹Ø±ÕÏÔÊ¾ÁĞ±í£¬¿ªÆô¶¥µã»º´æ¶ÔÏó
 	aGeometry->setUseVertexBufferObjects(true);
 
-	//å®šä¹‰ä¸€ä¸ªå‡ ä½•ç»„ç»“ç‚¹ï¼Œå¹¶æŠŠå‡ ä½•ä½“ç»“ç‚¹åŠ å…¥åˆ°å‡ ä½•ç»„ç»“ç‚¹å½“ä¸­
+	//¶¨ÒåÒ»¸ö¼¸ºÎ×é½áµã£¬²¢°Ñ¼¸ºÎÌå½áµã¼ÓÈëµ½¼¸ºÎ×é½áµãµ±ÖĞ
 	osg::ref_ptr<osg::Geode> geode=new osg::Geode();
 	//geode->addDrawable(geom.get());
 
@@ -461,13 +461,13 @@ osg::ref_ptr<osg::Geode> PipeArc::Create(osg::Vec3 pos,osg::Vec3 nor)
 	stateset->setMode( GL_LIGHTING, osg::StateAttribute::ON);
 	stateset->setMode( GL_LIGHT1, osg::StateAttribute::ON);
 
-	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ç”¨äºé€‰æ‹©å…‰ç…§æ¨¡å‹ï¼ˆå¦‚å…¨å±€å…‰å’ŒåŒé¢å…‰ç…§ï¼‰
+	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ÓÃÓÚÑ¡Ôñ¹âÕÕÄ£ĞÍ£¨ÈçÈ«¾Ö¹âºÍË«Ãæ¹âÕÕ£©
 	lightModel->setTwoSided(true);
 	stateset->setAttributeAndModes(lightModel.get() );
 
 	osg::ref_ptr<osg::Material> mat = new osg::Material;
 
-	//2016.06.01. é€šå¸¸ï¼Œå¯¹ç¯å¢ƒå…‰ä¸æ¼«åå°„å…‰çš„åå°„ç¨‹åº¦å†³å®šäº†ææ–™çš„é¢œè‰²ï¼Œå¹¶ä¸”å®ƒä»¬åº”è¯¥å€¼ç›¸åŒã€‚
+	//2016.06.01. Í¨³££¬¶Ô»·¾³¹âÓëÂş·´Éä¹âµÄ·´Éä³Ì¶È¾ö¶¨ÁË²ÄÁÏµÄÑÕÉ«£¬²¢ÇÒËüÃÇÓ¦¸ÃÖµÏàÍ¬¡£
 	mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 1.0f, 1.0f));
 	mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 1.0f, 1.0f));
 	mat->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4(0.3,0.3,0.3,1.0f));
@@ -517,13 +517,13 @@ osg::ref_ptr<osg::Group> PipeArc::CreateNew()
 
 	aGeode->addDrawable(aGeometry);
 
-	//Â setÂ materialÂ forÂ theÂ surface
+	//?set?material?for?the?surface
 	osg::ref_ptr<osg::StateSet>	aStateSet = aGeode->getOrCreateStateSet();
 	aStateSet->setMode(GL_NORMALIZE, osg::StateAttribute::ON);
 	aStateSet->setMode( GL_LIGHTING, osg::StateAttribute::ON);
 	aStateSet->setMode( GL_LIGHT1, osg::StateAttribute::ON);
 
-	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ç”¨äºé€‰æ‹©å…‰ç…§æ¨¡å‹ï¼ˆå¦‚å…¨å±€å…‰å’ŒåŒé¢å…‰ç…§ï¼‰
+	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ÓÃÓÚÑ¡Ôñ¹âÕÕÄ£ĞÍ£¨ÈçÈ«¾Ö¹âºÍË«Ãæ¹âÕÕ£©
 	lightModel->setTwoSided(true);
 	aStateSet->setAttributeAndModes(lightModel.get() );
 
@@ -715,16 +715,16 @@ osg::ref_ptr<osg::Geode> WheelModel::CreateRabbet(Vec3 pos,Vec3 nor)
 		(*aNormals)[3*i+2].set(nor[0], nor[1], nor[2]);
 	}
 
-	aGeometry->setVertexArray(aPoints);//å°†åæ ‡è®¾ç½®åˆ°å‡ ä½•ä½“èŠ‚ç‚¹ä¸­
-	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//æ·»åŠ æ³•çº¿åˆ°å‡ ä½•ä½“ä¸­
+	aGeometry->setVertexArray(aPoints);//½«×ø±êÉèÖÃµ½¼¸ºÎÌå½ÚµãÖĞ
+	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//Ìí¼Ó·¨Ïßµ½¼¸ºÎÌåÖĞ
 
 	osg::ref_ptr<osg::DrawArrays> Primitives1 = new osg::DrawArrays(GL_TRIANGLES, 0, aNormals->size());
 	aGeometry->addPrimitiveSet(Primitives1.get());
 
-	//å…³é—­æ˜¾ç¤ºåˆ—è¡¨ï¼Œå¼€å¯é¡¶ç‚¹ç¼“å­˜å¯¹è±¡
+	//¹Ø±ÕÏÔÊ¾ÁĞ±í£¬¿ªÆô¶¥µã»º´æ¶ÔÏó
 	aGeometry->setUseVertexBufferObjects(true);
 
-	//å®šä¹‰ä¸€ä¸ªå‡ ä½•ç»„ç»“ç‚¹ï¼Œå¹¶æŠŠå‡ ä½•ä½“ç»“ç‚¹åŠ å…¥åˆ°å‡ ä½•ç»„ç»“ç‚¹å½“ä¸­
+	//¶¨ÒåÒ»¸ö¼¸ºÎ×é½áµã£¬²¢°Ñ¼¸ºÎÌå½áµã¼ÓÈëµ½¼¸ºÎ×é½áµãµ±ÖĞ
 	osg::ref_ptr<osg::Geode> geode=new osg::Geode();
 	//geode->addDrawable(geom.get());
 
@@ -733,13 +733,13 @@ osg::ref_ptr<osg::Geode> WheelModel::CreateRabbet(Vec3 pos,Vec3 nor)
 	stateset->setMode( GL_LIGHTING, osg::StateAttribute::ON);
 	stateset->setMode( GL_LIGHT1, osg::StateAttribute::ON);
 
-	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ç”¨äºé€‰æ‹©å…‰ç…§æ¨¡å‹ï¼ˆå¦‚å…¨å±€å…‰å’ŒåŒé¢å…‰ç…§ï¼‰
+	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ÓÃÓÚÑ¡Ôñ¹âÕÕÄ£ĞÍ£¨ÈçÈ«¾Ö¹âºÍË«Ãæ¹âÕÕ£©
 	lightModel->setTwoSided(true);
 	stateset->setAttributeAndModes(lightModel.get() );
 
 	osg::ref_ptr<osg::Material> mat = new osg::Material;
 
-	//2016.06.01. é€šå¸¸ï¼Œå¯¹ç¯å¢ƒå…‰ä¸æ¼«åå°„å…‰çš„åå°„ç¨‹åº¦å†³å®šäº†ææ–™çš„é¢œè‰²ï¼Œå¹¶ä¸”å®ƒä»¬åº”è¯¥å€¼ç›¸åŒã€‚
+	//2016.06.01. Í¨³££¬¶Ô»·¾³¹âÓëÂş·´Éä¹âµÄ·´Éä³Ì¶È¾ö¶¨ÁË²ÄÁÏµÄÑÕÉ«£¬²¢ÇÒËüÃÇÓ¦¸ÃÖµÏàÍ¬¡£
 	mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 1.0f, 1.0f));
 	mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 1.0f, 1.0f));
 	mat->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4(0.3,0.3,0.3,1.0f));
@@ -758,10 +758,10 @@ osg::ref_ptr<osg::Geode> WheelModel::CreateRabbet(Vec3 pos,Vec3 nor)
 	return geode;
 }
 
-// åˆ›å»ºä¸Šä¸‹åœ†ç¯
+// ´´½¨ÉÏÏÂÔ²»·
 void WheelModel::CreateUpAndDownCircle(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºä¸Šé¢åœ†ç¯,3Â°åœ†å¼§å¯¹åº”ä¸€ä¸ªä¸‰è§’å½¢é
+	// ´´½¨ÉÏÃæÔ²»·,3¡ãÔ²»¡¶ÔÓ¦Ò»¸öÈı½ÇĞÎ±é
 	double delta = 6.0;
 	int size = 360.0/delta;
 	for (int i = 1;i <= size;++i)
@@ -791,7 +791,7 @@ void WheelModel::CreateUpAndDownCircle(double* matrix,osg::ref_ptr<osg::Vec3Arra
 		aNormals->push_back(nor1);
 	}
 
-	// åˆ›å»ºä¸‹åŠåœ†å‘¨
+	// ´´½¨ÏÂ°ëÔ²ÖÜ
 	for (int i = 1;i <= size;++i)
 	{
 		double theta = 2.0*PI*(i-1)/size;
@@ -821,7 +821,7 @@ void WheelModel::CreateUpAndDownCircle(double* matrix,osg::ref_ptr<osg::Vec3Arra
 
 }
 
-// åˆ›å»ºä¸­å¿ƒåœ†æŸ±åŠä¸Šä¸‹ä¾§ä¸å‡¹æ§½é“¾æ¥çš„éƒ¨åˆ†
+// ´´½¨ÖĞĞÄÔ²Öù¼°ÉÏÏÂ²àÓë°¼²ÛÁ´½ÓµÄ²¿·Ö
 void WheelModel::CreateMidCylinder(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
 	double delta = 6.0;
@@ -853,7 +853,7 @@ void WheelModel::CreateMidCylinder(double* matrix,osg::ref_ptr<osg::Vec3Array>& 
 		aNormals->push_back(nor1);
 	}
 
-	// ä¸Šä¾§ä¸å‡¹æ§½é“¾æ¥çš„éƒ¨åˆ†
+	// ÉÏ²àÓë°¼²ÛÁ´½ÓµÄ²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
 		double theta = 2.0*PI*(i-1)/size;
@@ -881,7 +881,7 @@ void WheelModel::CreateMidCylinder(double* matrix,osg::ref_ptr<osg::Vec3Array>& 
 		aNormals->push_back(nor1);
 	}
 
-	// ä¸‹ä¾§ä¸å‡¹æ§½é“¾æ¥çš„éƒ¨åˆ†
+	// ÏÂ²àÓë°¼²ÛÁ´½ÓµÄ²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
 		double theta = 2.0*PI*(i-1)/size;
@@ -912,17 +912,17 @@ void WheelModel::CreateMidCylinder(double* matrix,osg::ref_ptr<osg::Vec3Array>& 
 
 void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+	// ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dRadius0 - m_dWide + m_dWide*(i-1)/size;
 		double x1 = m_dRadius0 - m_dWide + m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,m_dHight0);
 		osg::Vec3 p1(x1,-m_dLength,m_dHight0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,0.0,m_dHight0);
 		osg::Vec3 p3(x1,0.0,m_dHight0);
 
@@ -943,20 +943,20 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dRadius0 - m_dWide + m_dWide*(i-1)/size;
 		double x1 = m_dRadius0 - m_dWide + m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,-m_dHight1);
 		osg::Vec3 p1(x1,-m_dLength,-m_dHight1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,0.0,-m_dHight1);
 		osg::Vec3 p3(x1,0.0,-m_dHight1);
 
@@ -977,17 +977,17 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,-m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,-m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0-m_dWide,0.0,z0);
 		osg::Vec3 p3(m_dRadius0-m_dWide,0.0,z1);
 
@@ -1008,18 +1008,18 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,-m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,-m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0,-m_dLength,z1);
 
@@ -1041,18 +1041,18 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 	}
 
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,-m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,-m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0,-m_dLength,z1);
 
@@ -1073,11 +1073,11 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = m_dRadius0 - m_dRadius1*sin(theta);
@@ -1085,11 +1085,11 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		theta = PI*i/size;
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = m_dRadius0 - m_dRadius1*sin(theta);
-		// å‰ä¾§ä¸¤ç‚¹
+		// Ç°²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,z0);
 		osg::Vec3 p1(x1,-m_dLength,z1);
 
-		// åä¾§ä¸¤ç‚¹
+		// ºó²àÁ½µã
 		osg::Vec3 p2(m_dRadius0 - m_dWide,-m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0 - m_dWide,-m_dLength,z1);
 
@@ -1110,18 +1110,18 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,0.0,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,0.0,z0);
 		osg::Vec3 p3(m_dRadius0,0.0,z1);
 
@@ -1142,18 +1142,18 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,0.0,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,0.0,z0);
 		osg::Vec3 p3(m_dRadius0,0.0,z1);
 
@@ -1174,11 +1174,11 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = m_dRadius0 - m_dRadius1*sin(theta);
@@ -1186,11 +1186,11 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		theta = PI*i/size;
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = m_dRadius0 - m_dRadius1*sin(theta);
-		// å‰ä¾§ä¸¤ç‚¹
+		// Ç°²àÁ½µã
 		osg::Vec3 p0(x0,0.0,z0);
 		osg::Vec3 p1(x1,0.0,z1);
 
-		// åä¾§ä¸¤ç‚¹
+		// ºó²àÁ½µã
 		osg::Vec3 p2(m_dRadius0 - m_dWide,0.0,z0);
 		osg::Vec3 p3(m_dRadius0 - m_dWide,0.0,z1);
 
@@ -1211,17 +1211,17 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0,-m_dLength,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,0.0,z0);
 		osg::Vec3 p3(m_dRadius0,0.0,z1);
 
@@ -1242,17 +1242,17 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0,-m_dLength,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,0.0,z0);
 		osg::Vec3 p3(m_dRadius0,0.0,z1);
 
@@ -1273,11 +1273,11 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = m_dRadius0 - m_dRadius1*sin(theta);
@@ -1286,10 +1286,10 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = m_dRadius0 - m_dRadius1*sin(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,z0);
 		osg::Vec3 p1(x1,-m_dLength,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,0.0,z0);
 		osg::Vec3 p3(x1,0.0,z1);
 
@@ -1312,20 +1312,20 @@ void WheelModel::CreateOuterRight(double* matrix,osg::ref_ptr<osg::Vec3Array>& a
 
 }
 
-// ç”¨äºå·¦è¾¹åŠ å·¥çš„è½®æ¨¡ï¼Œè½®æ¨¡å¼€å£æœå³ï¼Œåˆå§‹ä½ç½®åœ¨å³è¾¹ï¼Œä½†æ˜¯åœ¨é‡Œä¾§ï¼Œä½¿ç”¨æ—¶æœºå¤´è½¬180åº¦ï¼Œå°±è½¬åˆ°å·¦ä¾§
+// ÓÃÓÚ×ó±ß¼Ó¹¤µÄÂÖÄ££¬ÂÖÄ£¿ª¿Ú³¯ÓÒ£¬³õÊ¼Î»ÖÃÔÚÓÒ±ß£¬µ«ÊÇÔÚÀï²à£¬Ê¹ÓÃÊ±»úÍ·×ª180¶È£¬¾Í×ªµ½×ó²à
 void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+	// ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dRadius0 - m_dWide + m_dWide*(i-1)/size;
 		double x1 = m_dRadius0 - m_dWide + m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,0.0,m_dHight0);
 		osg::Vec3 p1(x1,0.0,m_dHight0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dLength,m_dHight0);
 		osg::Vec3 p3(x1,m_dLength,m_dHight0);
 
@@ -1346,20 +1346,20 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dRadius0 - m_dWide + m_dWide*(i-1)/size;
 		double x1 = m_dRadius0 - m_dWide + m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,0.0,-m_dHight1);
 		osg::Vec3 p1(x1,0.0,-m_dHight1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dLength,-m_dHight1);
 		osg::Vec3 p3(x1,m_dLength,-m_dHight1);
 
@@ -1380,17 +1380,17 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		//// å·¦ä¾§ä¸¤ç‚¹
+		//// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,0.0,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0-m_dWide,m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0-m_dWide,m_dLength,z1);
 
@@ -1411,18 +1411,18 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,0.0,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,0.0,z0);
 		osg::Vec3 p3(m_dRadius0,0.0,z1);
 
@@ -1444,18 +1444,18 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 	}
 
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,0.0,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,0.0,z0);
 		osg::Vec3 p3(m_dRadius0,0.0,z1);
 
@@ -1476,11 +1476,11 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = m_dRadius0 - m_dRadius1*sin(theta);
@@ -1488,11 +1488,11 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		theta = PI*i/size;
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = m_dRadius0 - m_dRadius1*sin(theta);
-		// å‰ä¾§ä¸¤ç‚¹
+		// Ç°²àÁ½µã
 		osg::Vec3 p0(x0,0.0,z0);
 		osg::Vec3 p1(x1,0.0,z1);
 
-		// åä¾§ä¸¤ç‚¹
+		// ºó²àÁ½µã
 		osg::Vec3 p2(m_dRadius0 - m_dWide,0.0,z0);
 		osg::Vec3 p3(m_dRadius0 - m_dWide,0.0,z1);
 
@@ -1513,18 +1513,18 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0,m_dLength,z1);
 
@@ -1545,18 +1545,18 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0-m_dWide,m_dLength,z0);
 		osg::Vec3 p1(m_dRadius0-m_dWide,m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0,m_dLength,z1);
 
@@ -1577,11 +1577,11 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = m_dRadius0 - m_dRadius1*sin(theta);
@@ -1589,11 +1589,11 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		theta = PI*i/size;
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = m_dRadius0 - m_dRadius1*sin(theta);
-		// å‰ä¾§ä¸¤ç‚¹
+		// Ç°²àÁ½µã
 		osg::Vec3 p0(x0,m_dLength,z0);
 		osg::Vec3 p1(x1,m_dLength,z1);
 
-		// åä¾§ä¸¤ç‚¹
+		// ºó²àÁ½µã
 		osg::Vec3 p2(m_dRadius0 - m_dWide,m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0 - m_dWide,m_dLength,z1);
 
@@ -1614,17 +1614,17 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0,0.0,z0);
 		osg::Vec3 p1(m_dRadius0,0.0,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0,m_dLength,z1);
 
@@ -1645,17 +1645,17 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(m_dRadius0,0.0,z0);
 		osg::Vec3 p1(m_dRadius0,0.0,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dRadius0,m_dLength,z0);
 		osg::Vec3 p3(m_dRadius0,m_dLength,z1);
 
@@ -1676,11 +1676,11 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = m_dRadius0 - m_dRadius1*sin(theta);
@@ -1689,10 +1689,10 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = m_dRadius0 - m_dRadius1*sin(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,0.0,z0);
 		osg::Vec3 p1(x1,0.0,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dLength,z0);
 		osg::Vec3 p3(x1,m_dLength,z1);
 
@@ -1717,17 +1717,17 @@ void WheelModel::CreateOuterLeftNew(double* matrix,osg::ref_ptr<osg::Vec3Array>&
 
 void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+	// ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = -m_dRadius0 + m_dWide - m_dWide*(i-1)/size;
 		double x1 = -m_dRadius0 + m_dWide - m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,m_dHight0);
 		osg::Vec3 p1(x1,-m_dLength,m_dHight0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,0.0,m_dHight0);
 		osg::Vec3 p3(x1,0.0,m_dHight0);
 
@@ -1748,20 +1748,20 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = -m_dRadius0 + m_dWide - m_dWide*(i-1)/size;
 		double x1 = -m_dRadius0 + m_dWide - m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,-m_dHight1);
 		osg::Vec3 p1(x1,-m_dLength,-m_dHight1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,0.0,-m_dHight1);
 		osg::Vec3 p3(x1,0.0,-m_dHight1);
 
@@ -1782,17 +1782,17 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0+m_dWide,-m_dLength,z0);
 		osg::Vec3 p1(-m_dRadius0+m_dWide,-m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0+m_dWide,0.0,z0);
 		osg::Vec3 p3(-m_dRadius0+m_dWide,0.0,z1);
 
@@ -1813,18 +1813,18 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0+m_dWide,-m_dLength,z0);
 		osg::Vec3 p1(-m_dRadius0+m_dWide,-m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p3(-m_dRadius0,-m_dLength,z1);
 
@@ -1846,18 +1846,18 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 	}
 
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0+m_dWide,-m_dLength,z0);
 		osg::Vec3 p1(-m_dRadius0+m_dWide,-m_dLength,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p3(-m_dRadius0,-m_dLength,z1);
 
@@ -1879,11 +1879,11 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 	}
 
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = -m_dRadius0 + m_dRadius1*sin(theta);
@@ -1891,11 +1891,11 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		theta = PI*i/size;
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = -m_dRadius0 + m_dRadius1*sin(theta);
-		// å‰ä¾§ä¸¤ç‚¹
+		// Ç°²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,z0);
 		osg::Vec3 p1(x1,-m_dLength,z1);
 
-		// åä¾§ä¸¤ç‚¹
+		// ºó²àÁ½µã
 		//osg::Vec3 p2(m_dRadius0 - m_dWide,-m_dLength,z0);
 		//osg::Vec3 p3(m_dRadius0 - m_dWide,-m_dLength,z1);
 		osg::Vec3 p2(-m_dRadius0 + m_dWide,-m_dLength,z0);
@@ -1918,18 +1918,18 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0+m_dWide,0.0,z0);
 		osg::Vec3 p1(-m_dRadius0+m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0,0.0,z0);
 		osg::Vec3 p3(-m_dRadius0,0.0,z1);
 
@@ -1950,18 +1950,18 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0+m_dWide,0.0,z0);
 		osg::Vec3 p1(-m_dRadius0+m_dWide,0.0,z1);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0,0.0,z0);
 		osg::Vec3 p3(-m_dRadius0,0.0,z1);
 
@@ -1982,11 +1982,11 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = -m_dRadius0 + m_dRadius1*sin(theta);
@@ -1994,11 +1994,11 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		theta = PI*i/size;
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = -m_dRadius0 + m_dRadius1*sin(theta);
-		// å‰ä¾§ä¸¤ç‚¹
+		// Ç°²àÁ½µã
 		osg::Vec3 p0(x0,0.0,z0);
 		osg::Vec3 p1(x1,0.0,z1);
 
-		// åä¾§ä¸¤ç‚¹
+		// ºó²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0 + m_dWide,0.0,z0);
 		osg::Vec3 p3(-m_dRadius0 + m_dWide,0.0,z1);
 
@@ -2019,17 +2019,17 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = m_dHight0 - (m_dHight0-m_dRadius1)*(i-1)/size;
 		double z1 = m_dHight0 - (m_dHight0-m_dRadius1)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p1(-m_dRadius0,-m_dLength,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0,0.0,z0);
 		osg::Vec3 p3(-m_dRadius0,0.0,z1);
 
@@ -2050,17 +2050,17 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double z0 = -m_dRadius1 - (m_dHight1-m_dRadius1)*(i-1)/size;
 		double z1 = -m_dRadius1 - (m_dHight1-m_dRadius1)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dRadius0,-m_dLength,z0);
 		osg::Vec3 p1(-m_dRadius0,-m_dLength,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dRadius0,0.0,z0);
 		osg::Vec3 p3(-m_dRadius0,0.0,z1);
 
@@ -2081,11 +2081,11 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double z0 = m_dRadius1*cos(theta);
 		double x0 = -m_dRadius0 + m_dRadius1*sin(theta);
@@ -2094,10 +2094,10 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 		double z1 = m_dRadius1*cos(theta);
 		double x1 = -m_dRadius0 + m_dRadius1*sin(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dLength,z0);
 		osg::Vec3 p1(x1,-m_dLength,z1);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,0.0,z0);
 		osg::Vec3 p3(x1,0.0,z1);
 
@@ -2119,14 +2119,14 @@ void WheelModel::CreateOuterLeft(double* matrix,osg::ref_ptr<osg::Vec3Array>& aP
 	}
 }
 
-// åˆ›å»ºå‡¸å—
+// ´´½¨Í¹¿é
 void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºå‡¸å‡ºå—ä¸Šè¡¨é¢
-	//osg::Vec3 leftUp(-m_dLength,-m_dRadius0+m_dWide,m_dHight0); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//osg::Vec3 leftDown(-m_dLength,-m_dRadius0,m_dHight0);  //å·¦ä¸‹è§’åæ ‡
-	//osg::Vec3 rightUp(0.0,-m_dRadius0+m_dWide,m_dHight0);    // å³ä¸Šè§’åæ ‡
-	//osg::Vec3 rightDown(0.0,-m_dRadius0,m_dHight0);  // å³ä¸‹è§’åæ ‡
+	// ´´½¨Í¹³ö¿éÉÏ±íÃæ
+	//osg::Vec3 leftUp(-m_dLength,-m_dRadius0+m_dWide,m_dHight0); // ×óÉÏ½Çµã×ø±ê
+	//osg::Vec3 leftDown(-m_dLength,-m_dRadius0,m_dHight0);  //×óÏÂ½Ç×ø±ê
+	//osg::Vec3 rightUp(0.0,-m_dRadius0+m_dWide,m_dHight0);    // ÓÒÉÏ½Ç×ø±ê
+	//osg::Vec3 rightDown(0.0,-m_dRadius0,m_dHight0);  // ÓÒÏÂ½Ç×ø±ê
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
@@ -2156,11 +2156,11 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 
 	}
 
-	// å‡¸å‡ºå—ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// Í¹³ö¿éÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double hight = -m_dRadius0+m_dWide-m_dWide*(i-1)/size;
@@ -2188,7 +2188,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
 		double z = m_dHight0-(m_dHight0+m_dHight1)*(i-1)/size;
@@ -2216,7 +2216,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§
+	// ×ó²à
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
@@ -2252,7 +2252,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§
+	// ÓÒ²à
 	for (int i = 1;i <= size;++i)
 	{
 		double x = 0.0;
@@ -2287,7 +2287,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// ä¸Šä¾§å‚ä¸‹çš„éƒ¨åˆ†
+	// ÉÏ²à´¹ÏÂµÄ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
@@ -2343,7 +2343,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§å‚ä¸‹éƒ¨åˆ†
+	// ×ó²à´¹ÏÂ²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
 		double z = m_dHight0 - (i-1)*(m_dHight0-m_dRadius1)/size;
@@ -2398,7 +2398,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ä¸‹å‚
+	// ÓÒ²àÏÂ´¹
 	for (int i = 1;i <= size;++i)
 	{
 		double z = m_dHight0 - (i-1)*(m_dHight0-m_dRadius1)/size;
@@ -2453,7 +2453,7 @@ void WheelModel::CreateOuter(double* matrix,osg::ref_ptr<osg::Vec3Array>& aPoint
 		aNormals->push_back(nor1);
 	}
 
-	// ä¸­é—´æ®µå‡¹æ§½
+	// ÖĞ¼ä¶Î°¼²Û
 	for (int i = 1;i <= size;++i)
 	{
 		double x = 0.0;
@@ -2497,7 +2497,7 @@ Clip::Clip(double hight0,double hight1,double radius,int step,double length,doub
 	, m_dLength(length)
 	, m_dWide(wide)
 	, m_bLeft(left)
-    , m_bAid(isAid)  // æ˜¯å¦æ˜¯è¾…å¤¹
+    , m_bAid(isAid)  // ÊÇ·ñÊÇ¸¨¼Ğ
 {
     //m_bAid = false;
 }
@@ -2507,10 +2507,10 @@ Clip::~Clip()
 
 }
 
-// åˆ›å»ºå¤¹å­æ¨¡å‹æ¨¡å‹
-// ä»¥ä¸­é—´å‡¹æ§½ä¸­å¿ƒçº¿ä¸ºZæ–¹å‘ï¼Œæ°´å¹³å‘å³ä¸ºæ­£æ–¹å‘
-// å‚ç›´å‘é‡Œä¸ºxæ­£æ–¹å‘ï¼Œç«–ç›´å‘ä¸Šä¸ºYæ–¹å‘
-// å‡¹æ§½æœ€å·¦ç«¯ä¸­å¿ƒä¸ºåæ ‡åŸç‚¹
+// ´´½¨¼Ğ×ÓÄ£ĞÍÄ£ĞÍ
+// ÒÔÖĞ¼ä°¼²ÛÖĞĞÄÏßÎªZ·½Ïò£¬Ë®Æ½ÏòÓÒÎªÕı·½Ïò
+// ´¹Ö±ÏòÀïÎªxÕı·½Ïò£¬ÊúÖ±ÏòÉÏÎªY·½Ïò
+// °¼²Û×î×ó¶ËÖĞĞÄÎª×ø±êÔ­µã
 osg::ref_ptr<osg::Geode> Clip::Create(Vec3 pos,Vec3 nor)
 {
 
@@ -2559,22 +2559,22 @@ osg::ref_ptr<osg::Geode> Clip::Create(Vec3 pos,Vec3 nor)
 
 	if (!m_bAid && !m_bLeft)
 	{
-        // ä¸»å¤¹ï¼Œå¼€å£æœå·¦
+        // Ö÷¼Ğ£¬¿ª¿Ú³¯×ó
 		MouthToLeft(aPoints,aNormals);
 	}
 	else if(!m_bAid && m_bLeft)
 	{
-        // ä¸»å¤¹ï¼Œå¼€å£æœå³
+        // Ö÷¼Ğ£¬¿ª¿Ú³¯ÓÒ
 		MouthToRight(aPoints,aNormals);
 	}
     else if (m_bAid && m_bLeft)
     {
-        // è¾…å¤¹ï¼Œå¼€å£æœå³
+        // ¸¨¼Ğ£¬¿ª¿Ú³¯ÓÒ
         AidMouthToRight(aPoints,aNormals);
     }
     else if (m_bAid && !m_bLeft)
     {
-        // è¾…å¤¹ï¼Œå¼€å£æœå·¦
+        // ¸¨¼Ğ£¬¿ª¿Ú³¯×ó
         AidMouthToLeft(aPoints,aNormals);
     }
 
@@ -2610,16 +2610,16 @@ osg::ref_ptr<osg::Geode> Clip::Create(Vec3 pos,Vec3 nor)
 		(*aNormals)[3*i+2].set(nor[0], nor[1], nor[2]);
 	}
 
-	aGeometry->setVertexArray(aPoints);//å°†åæ ‡è®¾ç½®åˆ°å‡ ä½•ä½“èŠ‚ç‚¹ä¸­
-	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//æ·»åŠ æ³•çº¿åˆ°å‡ ä½•ä½“ä¸­
+	aGeometry->setVertexArray(aPoints);//½«×ø±êÉèÖÃµ½¼¸ºÎÌå½ÚµãÖĞ
+	aGeometry->setNormalArray(aNormals, osg::Array::BIND_PER_VERTEX);//Ìí¼Ó·¨Ïßµ½¼¸ºÎÌåÖĞ
 
 	osg::ref_ptr<osg::DrawArrays> Primitives1 = new osg::DrawArrays(GL_TRIANGLES, 0, aNormals->size());
 	aGeometry->addPrimitiveSet(Primitives1.get());
 
-	//å…³é—­æ˜¾ç¤ºåˆ—è¡¨ï¼Œå¼€å¯é¡¶ç‚¹ç¼“å­˜å¯¹è±¡
+	//¹Ø±ÕÏÔÊ¾ÁĞ±í£¬¿ªÆô¶¥µã»º´æ¶ÔÏó
 	aGeometry->setUseVertexBufferObjects(true);
 
-	//å®šä¹‰ä¸€ä¸ªå‡ ä½•ç»„ç»“ç‚¹ï¼Œå¹¶æŠŠå‡ ä½•ä½“ç»“ç‚¹åŠ å…¥åˆ°å‡ ä½•ç»„ç»“ç‚¹å½“ä¸­
+	//¶¨ÒåÒ»¸ö¼¸ºÎ×é½áµã£¬²¢°Ñ¼¸ºÎÌå½áµã¼ÓÈëµ½¼¸ºÎ×é½áµãµ±ÖĞ
 	osg::ref_ptr<osg::Geode> geode=new osg::Geode();
 	//geode->addDrawable(geom.get());
 
@@ -2628,13 +2628,13 @@ osg::ref_ptr<osg::Geode> Clip::Create(Vec3 pos,Vec3 nor)
 	stateset->setMode( GL_LIGHTING, osg::StateAttribute::ON);
 	stateset->setMode( GL_LIGHT1, osg::StateAttribute::ON);
 
-	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ç”¨äºé€‰æ‹©å…‰ç…§æ¨¡å‹ï¼ˆå¦‚å…¨å±€å…‰å’ŒåŒé¢å…‰ç…§ï¼‰
+	osg::ref_ptr<osg::LightModel> lightModel = new osg::LightModel; //ÓÃÓÚÑ¡Ôñ¹âÕÕÄ£ĞÍ£¨ÈçÈ«¾Ö¹âºÍË«Ãæ¹âÕÕ£©
 	lightModel->setTwoSided(true);
 	stateset->setAttributeAndModes(lightModel.get() );
 
 	osg::ref_ptr<osg::Material> mat = new osg::Material;
 
-	//2016.06.01. é€šå¸¸ï¼Œå¯¹ç¯å¢ƒå…‰ä¸æ¼«åå°„å…‰çš„åå°„ç¨‹åº¦å†³å®šäº†ææ–™çš„é¢œè‰²ï¼Œå¹¶ä¸”å®ƒä»¬åº”è¯¥å€¼ç›¸åŒã€‚
+	//2016.06.01. Í¨³££¬¶Ô»·¾³¹âÓëÂş·´Éä¹âµÄ·´Éä³Ì¶È¾ö¶¨ÁË²ÄÁÏµÄÑÕÉ«£¬²¢ÇÒËüÃÇÓ¦¸ÃÖµÏàÍ¬¡£
 	mat->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 1.0f, 1.0f));
 	mat->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 1.0f, 1.0f, 1.0f));
 	mat->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4(0.3,0.3,0.3,1.0f));
@@ -2656,17 +2656,17 @@ osg::ref_ptr<osg::Geode> Clip::Create(Vec3 pos,Vec3 nor)
 
 void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+	// ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dWide*(i-1)/size;
 		double x1 = m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,m_dHight0,0.0);
 		osg::Vec3 p1(x1,m_dHight0,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dHight0,m_dLength);
 		osg::Vec3 p3(x1,m_dHight0,m_dLength);
 
@@ -2687,20 +2687,20 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dWide*(i-1)/size;
 		double x1 = m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dHight1,0.0);
 		osg::Vec3 p1(x1,-m_dHight1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,-m_dHight1,m_dLength);
 		osg::Vec3 p3(x1,-m_dHight1,m_dLength);
 
@@ -2721,17 +2721,17 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dWide,y0,0.0);
 		osg::Vec3 p1(m_dWide,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -2752,18 +2752,18 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -2784,18 +2784,18 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -2816,11 +2816,11 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -2828,11 +2828,11 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		theta = PI*i/size;
 		double x1 = m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -2853,18 +2853,18 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,m_dLength);
 		osg::Vec3 p1(0.0,y1,m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -2885,18 +2885,18 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,m_dLength);
 		osg::Vec3 p1(0.0,y1,m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -2917,11 +2917,11 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -2929,11 +2929,11 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		theta = PI*i/size;
 		double x1 = m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,m_dLength);
 		osg::Vec3 p1(x1,y1,m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -2954,17 +2954,17 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,m_dLength);
 		osg::Vec3 p3(0.0,y1,m_dLength);
 
@@ -2985,17 +2985,17 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,m_dLength);
 		osg::Vec3 p3(0.0,y1,m_dLength);
 
@@ -3016,11 +3016,11 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3029,10 +3029,10 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 		double x1 = m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,y0,m_dLength);
 		osg::Vec3 p3(x1,y1,m_dLength);
 
@@ -3054,20 +3054,20 @@ void Clip::MouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::V
 	}
 }
 
-//å‡¹æ§½æœå³
+//°¼²Û³¯ÓÒ
 void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-	// åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+	// ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dWide*(i-1)/size;
 		double x1 = m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,m_dHight0,0.0);
 		osg::Vec3 p1(x1,m_dHight0,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dHight0,m_dLength);
 		osg::Vec3 p3(x1,m_dHight0,m_dLength);
 
@@ -3088,20 +3088,20 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dWide*(i-1)/size;
 		double x1 = m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dHight1,0.0);
 		osg::Vec3 p1(x1,-m_dHight1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,-m_dHight1,m_dLength);
 		osg::Vec3 p3(x1,-m_dHight1,m_dLength);
 
@@ -3122,17 +3122,17 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,m_dLength);
 		osg::Vec3 p3(0.0,y1,m_dLength);
 
@@ -3153,18 +3153,18 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -3185,18 +3185,18 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -3217,11 +3217,11 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dWide - m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3229,11 +3229,11 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		theta = PI*i/size;
 		double x1 = m_dWide-m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,0.0);
 		osg::Vec3 p3(0.0,y1,0.0);
 
@@ -3254,18 +3254,18 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,m_dLength);
 		osg::Vec3 p1(0.0,y1,m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -3286,18 +3286,18 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,m_dLength);
 		osg::Vec3 p1(0.0,y1,m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -3318,11 +3318,11 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dWide - m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3330,11 +3330,11 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		theta = PI*i/size;
 		double x1 = m_dWide - m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,m_dLength);
 		osg::Vec3 p1(x1,y1,m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,m_dLength);
 		osg::Vec3 p3(0.0,y1,m_dLength);
 
@@ -3355,17 +3355,17 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(m_dWide,y0,0.0);
 		osg::Vec3 p1(m_dWide,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -3386,17 +3386,17 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(m_dWide,y0,0.0);
 		osg::Vec3 p1(m_dWide,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,m_dLength);
 		osg::Vec3 p3(m_dWide,y1,m_dLength);
 
@@ -3417,11 +3417,11 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dWide - m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3430,10 +3430,10 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 		double x1 = m_dWide - m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,y0,m_dLength);
 		osg::Vec3 p3(x1,y1,m_dLength);
 
@@ -3456,20 +3456,20 @@ void Clip::MouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::
 }
 
 
-// è¾…å¤¹å‡¹æ§½æœå·¦
+// ¸¨¼Ğ°¼²Û³¯×ó
 void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-    	// åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+    	// ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dWide*(i-1)/size;
 		double x1 = m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,m_dHight0,0.0);
 		osg::Vec3 p1(x1,m_dHight0,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dHight0,-m_dLength);
 		osg::Vec3 p3(x1,m_dHight0,-m_dLength);
 
@@ -3490,20 +3490,20 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = m_dWide*(i-1)/size;
 		double x1 = m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dHight1,0.0);
 		osg::Vec3 p1(x1,-m_dHight1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,-m_dHight1,-m_dLength);
 		osg::Vec3 p3(x1,-m_dHight1,-m_dLength);
 
@@ -3524,17 +3524,17 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(m_dWide,y0,0.0);
 		osg::Vec3 p1(m_dWide,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(m_dWide,y1,-m_dLength);
 
@@ -3555,18 +3555,18 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -3587,18 +3587,18 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -3619,11 +3619,11 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3631,11 +3631,11 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		theta = PI*i/size;
 		double x1 = m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,0.0);
 		osg::Vec3 p3(m_dWide,y1,0.0);
 
@@ -3656,18 +3656,18 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// åä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ºó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,-m_dLength);
 		osg::Vec3 p1(0.0,y1,-m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(m_dWide,y1,-m_dLength);
 
@@ -3688,18 +3688,18 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// åä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ºó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,-m_dLength);
 		osg::Vec3 p1(0.0,y1,-m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(m_dWide,y1,-m_dLength);
 
@@ -3720,11 +3720,11 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// åä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ºó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3732,11 +3732,11 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		theta = PI*i/size;
 		double x1 = m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,-m_dLength);
 		osg::Vec3 p1(x1,y1,-m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(m_dWide,y1,-m_dLength);
 
@@ -3757,17 +3757,17 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// ×ó²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,-m_dLength);
 		osg::Vec3 p3(0.0,y1,-m_dLength);
 
@@ -3788,17 +3788,17 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,-m_dLength);
 		osg::Vec3 p3(0.0,y1,-m_dLength);
 
@@ -3819,11 +3819,11 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -3832,10 +3832,10 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 		double x1 = m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,y0,-m_dLength);
 		osg::Vec3 p3(x1,y1,-m_dLength);
 
@@ -3857,20 +3857,20 @@ void Clip::AidMouthToLeft(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg
 	}
 }
 
-// è¾…å¤¹å‡¹æ§½æœå³
+// ¸¨¼Ğ°¼²Û³¯ÓÒ
 void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<osg::Vec3Array>& aNormals)
 {
-    // åˆ›å»ºå¤¹å­ä¸Šè¡¨é¢
+    // ´´½¨¼Ğ×ÓÉÏ±íÃæ
 	int size = 10;
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = -m_dWide*(i-1)/size;
 		double x1 = -m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,m_dHight0,0.0);
 		osg::Vec3 p1(x1,m_dHight0,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,m_dHight0,-m_dLength);
 		osg::Vec3 p3(x1,m_dHight0,-m_dLength);
 
@@ -3891,20 +3891,20 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å¤¹å­ä¸‹è¡¨é¢
-	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // å·¦ä¸Šè§’ç‚¹åæ ‡
-	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //å·¦ä¸‹è§’åæ ‡
-	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // å³ä¸Šè§’åæ ‡
-	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // å³ä¸‹è§’åæ ‡
+	// ¼Ğ×ÓÏÂ±íÃæ
+	//leftUp(-m_dLength,-m_dRadius0+m_dWide,-m_dHight1); // ×óÉÏ½Çµã×ø±ê
+	//Vec3 leftDown(-m_dLength,-m_dRadius0,-m_dHight1);  //×óÏÂ½Ç×ø±ê
+	//Vec3 rightUp(0.0,-m_dRadius0+m_dWide,-m_dHight1);    // ÓÒÉÏ½Ç×ø±ê
+	//Vec3 rightDown(0.0,-m_dRadius0,-m_dHight1);  // ÓÒÏÂ½Ç×ø±ê
 	for (int i = 1;i <= size;++i)
 	{
 		double x0 = -m_dWide*(i-1)/size;
 		double x1 = -m_dWide*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,-m_dHight1,0.0);
 		osg::Vec3 p1(x1,-m_dHight1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,-m_dHight1,-m_dLength);
 		osg::Vec3 p3(x1,-m_dHight1,-m_dLength);
 
@@ -3925,17 +3925,17 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// èƒŒé¢z
+	// ±³Ãæz
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0 + m_dHight1)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0 + m_dHight1)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(-m_dWide,y0,0.0);
 		osg::Vec3 p1(-m_dWide,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(-m_dWide,y1,-m_dLength);
 
@@ -3956,18 +3956,18 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å‰é¢ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// Ç°ÃæÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,0.0);
 		osg::Vec3 p3(-m_dWide,y1,0.0);
 
@@ -3988,18 +3988,18 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å‰é¢ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// Ç°ÃæÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,0.0);
 		osg::Vec3 p3(-m_dWide,y1,0.0);
 
@@ -4020,11 +4020,11 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = -m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -4032,11 +4032,11 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		theta = PI*i/size;
 		double x1 = -m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,0.0);
 		osg::Vec3 p3(-m_dWide,y1,0.0);
 
@@ -4057,18 +4057,18 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// åä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸Šéƒ¨åˆ†
+	// ºó²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÉÏ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,-m_dLength);
 		osg::Vec3 p1(0.0,y1,-m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(-m_dWide,y1,-m_dLength);
 
@@ -4089,18 +4089,18 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ç«–ç›´æ–¹å‘æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†çš„ä¸‹éƒ¨åˆ†
+	// ÓÒ²àÊúÖ±·½ÏòÃ»ÓĞÔ²»¡µÄ²¿·ÖµÄÏÂ²¿·Ö
 	size = 10;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,-m_dLength);
 		osg::Vec3 p1(0.0,y1,-m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(-m_dWide,y1,-m_dLength);
 
@@ -4121,11 +4121,11 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å·¦ä¾§ç«–ç›´æ–¹å‘åŒ…å«æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// ×ó²àÊúÖ±·½Ïò°üº¬ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = - m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -4133,11 +4133,11 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		theta = PI*i/size;
 		double x1 = - m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
-		// å·¦ä¾§ä¸¤ç‚¹
+		// ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,-m_dLength);
 		osg::Vec3 p1(x1,y1,-m_dLength);
 
-		// å³ä¾§ä¸¤ç‚¹
+		// ÓÒ²àÁ½µã
 		osg::Vec3 p2(-m_dWide,y0,-m_dLength);
 		osg::Vec3 p3(-m_dWide,y1,-m_dLength);
 
@@ -4158,17 +4158,17 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å³ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸ŠåŠéƒ¨åˆ†
+	// ÓÒ²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÉÏ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = m_dHight0 - (m_dHight0-m_dRadius)*(i-1)/size;
 		double y1 = m_dHight0 - (m_dHight0-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,-m_dLength);
 		osg::Vec3 p3(0.0,y1,-m_dLength);
 
@@ -4189,17 +4189,17 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æ²¡æœ‰åœ†å¼§çš„éƒ¨åˆ†ä¸‹åŠéƒ¨åˆ†
+	// Ç°²àÉÏ·½Ã»ÓĞÔ²»¡µÄ²¿·ÖÏÂ°ë²¿·Ö
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double y0 = -m_dRadius - (m_dHight1-m_dRadius)*(i-1)/size;
 		double y1 = -m_dRadius - (m_dHight1-m_dRadius)*i/size;
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(0.0,y0,0.0);
 		osg::Vec3 p1(0.0,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(0.0,y0,-m_dLength);
 		osg::Vec3 p3(0.0,y1,-m_dLength);
 
@@ -4220,11 +4220,11 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		aNormals->push_back(nor1);
 	}
 
-	// å‰ä¾§ä¸Šæ–¹æœ‰åœ†å¼§çš„éƒ¨åˆ†
+	// Ç°²àÉÏ·½ÓĞÔ²»¡µÄ²¿·Ö
 	size = 30;
 	for (int i = 1;i <= size;++i)
 	{
-		// ä»ä¸Šåˆ°ä¸‹
+		// ´ÓÉÏµ½ÏÂ
 		double theta = PI*(i-1)/size;
 		double x0 = - m_dRadius*sin(theta);
 		double y0 = m_dRadius*cos(theta);
@@ -4233,10 +4233,10 @@ void Clip::AidMouthToRight(osg::ref_ptr<osg::Vec3Array>& aPoints,osg::ref_ptr<os
 		double x1 = - m_dRadius*sin(theta);
 		double y1 = m_dRadius*cos(theta);
 
-		// å‰é¢å·¦ä¾§ä¸¤ç‚¹
+		// Ç°Ãæ×ó²àÁ½µã
 		osg::Vec3 p0(x0,y0,0.0);
 		osg::Vec3 p1(x1,y1,0.0);
-		// å‰é¢å³ä¾§ä¸¤ç‚¹
+		// Ç°ÃæÓÒ²àÁ½µã
 		osg::Vec3 p2(x0,y0,-m_dLength);
 		osg::Vec3 p3(x1,y1,-m_dLength);
 
