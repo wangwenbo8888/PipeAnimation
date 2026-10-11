@@ -34,36 +34,13 @@
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS    // some CString constructors will be explicit
 
-// turns off MFC's hiding of some common and often safely ignored warning messages
+// turns off MFC's hiding of some common and often ignored warning messages
 #define _AFX_ALL_WARNINGS
 
-#include <afxwin.h>         // MFC core and standard components
-#include <afxext.h>         // MFC extensions
-
-
-#include <afxdisp.h>        // MFC Automation classes
-
-#ifdef _DEBUG
-//#pragma comment(lib, "JdcEngine.lib")
-//#pragma comment(lib, "OGLRenderer.lib")
-#else
-//#pragma comment(lib, "JdcEngine.lib")
-//#pragma comment(lib, "OGLRenderer.lib")
-#endif
-
-#ifndef _AFX_NO_OLE_SUPPORT
-#include <afxdtctl.h>        // MFC support for Internet Explorer 4 Common Controls
-#endif
-#ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>            // MFC support for Windows Common Controls
-#endif // _AFX_NO_AFXCMN_SUPPORT
-
-
-
-
-
-
-#include <afxcontrolbars.h>     // MFC support for ribbons and control bars
+// NOTE: MFC headers (afxwin.h / afxext.h / afxdisp.h / afxdtctl.h /
+// afxcmn.h / afxcontrolbars.h) were removed 2026-10: nothing in this
+// project actually uses MFC classes, and pulling afx* in dragged the
+// whole MFC runtime into the import table.
 
 
 #ifdef _UNICODE
