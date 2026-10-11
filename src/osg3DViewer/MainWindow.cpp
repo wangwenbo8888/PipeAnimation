@@ -12275,6 +12275,8 @@ void MainWindow::AddPipesToCollision()
 // 将要做碰撞的模型添加进检测列表
 void MainWindow::AddModelsToCollision()
 {
+	clock_t __amcStart = clock();
+	LogInfo(QString("[perf] AddModelsToCollision begin: %1 stls, %2 pipes").arg(m_vSTLs.size()).arg(m_vPipes.size()));
 	//先删除原来添加的碰撞检测对象
 	if (!m_CollisionNameList.empty())
 	{
@@ -12327,6 +12329,7 @@ void MainWindow::AddModelsToCollision()
 	}
 
 	osgCollisionDetection::CollisionInterface::Instence()->setDoCollisionTest(true);
+	LogInfo(QString("[perf] AddModelsToCollision end, took %1 ms").arg((double)(clock()-__amcStart)/CLOCKS_PER_SEC*1000.0));
 	//fengtest end
 }
 
@@ -26428,11 +26431,11 @@ void MainWindow::collisionDetectedNew(std::string n0,std::string n1)
 
 void MainWindow::collisionDetect()
 {
-	LogInfo("Enter collision detect !");
-
-	clock_t curTime = clock();
-	LogInfo(QString("time out is %1").arg(curTime));
-
+	static int s_cdTickCount = 0;
+	++s_cdTickCount;
+	clock_t __cdStart = clock();
+	if (s_cdTickCount <= 3) 	LogInfo("Enter collision detect !");
+	if (s_cdTickCount <= 3) 	LogInfo(QString("CD timer interval is %1 ms").arg(m_collisionTimer->interval()));
 	time_t start = clock();
 	if (/*m_vCollisionParts*/m_vPairCollisionPartsToAlter.empty())
 	{
@@ -26442,10 +26445,11 @@ void MainWindow::collisionDetect()
 
 	//osg::ref_ptr<osg::Group> pipefather = m_sceneModel->getPipeFather();
 	std::vector<osg::ref_ptr<osg::PositionAttitudeTransform>> matrixs = GetAnmiPipeSeg();
-	LogInfo("matrixs size is " + QString::number(matrixs.size()));
+	if (s_cdTickCount <= 3) 	LogInfo("matrixs size is " + QString::number(matrixs.size()));
 	if (matrixs.empty() || matrixs.size()==0)
 	{
 		return;
+		if (s_cdTickCount <= 3) 	LogInfo(QString("[perf] CD tick %1 early-return(no pipe) took %2 ms").arg(s_cdTickCount).arg((double)(clock()-__cdStart)/CLOCKS_PER_SEC*1000.0));
 	}
 
 	index++;
@@ -26642,8 +26646,8 @@ void MainWindow::collisionDetect()
 
 	}
 
-	time_t end = clock()- start;
-	LogInfo("no collision time consume "+QString::number(end));
+	double __cdMs = (double)(clock()-__cdStart)/CLOCKS_PER_SEC*1000.0;
+	if (s_cdTickCount <= 10 || __cdMs > 50.0 || (s_cdTickCount % 200) == 0) 	LogInfo(QString("[perf] CD tick %1 full-run took %2 ms").arg(s_cdTickCount).arg(__cdMs));
 
 }
 

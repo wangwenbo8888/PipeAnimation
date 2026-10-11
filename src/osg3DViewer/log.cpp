@@ -1,4 +1,3 @@
-
 #include "log.h"
 
 #include <QDebug>
@@ -10,31 +9,35 @@
 
 void Log(QString message)
 {
-	QString path = QCoreApplication::applicationDirPath();
-	QDate currentdate = QDate::currentDate();
-	QString data = currentdate.toString("yyyy-MM-dd");
-	path.append("//");
-	QString fileName = path+data;
-	fileName.append(".log");
+	// Perf 2026-10: keep the file handle open across calls.
+	// The old implementation did open/write/close on EVERY log line,
+	// which throttled the whole application (collision timer logs a lot).
+	static QFile s_file;
+	static QTextStream s_stream(&s_file);
+	static QString s_curDate;
 
-	QFile file(fileName);
-	file.open(QIODevice::WriteOnly | QIODevice::Append);
-	if(!file.isOpen())
+	QString data = QDate::currentDate().toString("yyyy-MM-dd");
+	if (s_curDate != data || !s_file.isOpen())
 	{
-		qDebug() << "open file error !";
-		qDebug() << "filename: " <<  __FILE__ << "line: " <<  __LINE__ ;
-		return;
+		if (s_file.isOpen())
+		{
+			s_stream.flush();
+			s_file.close();
+		}
+		QString path = QCoreApplication::applicationDirPath();
+		path.append("//");
+		QString fileName = path + data;
+		fileName.append(".log");
+		s_file.setFileName(fileName);
+		if (!s_file.open(QIODevice::WriteOnly | QIODevice::Append))
+		{
+			return;
+		}
+		s_stream.setDevice(&s_file);
+		s_curDate = data;
 	}
 
-	QTextStream stream(&file);
-	QString str;
-
-	QDateTime datatime;
-	str += datatime.currentDateTime().toString("hh:mm:ss.zzz");
-	str += ": ";
-	str += message;
-	str += "\r\n";
-	stream << str  ;
-
-	file.close();
+	QDateTime datetime;
+	s_stream << datetime.currentDateTime().toString("hh:mm:ss.zzz") << ": " << message << "\r\n";
+	s_stream.flush();
 }

@@ -177,6 +177,8 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
+	LogInfo("=== APP START (QApplication created) ===");
+
 	QSharedMemory singleton(app.applicationName());
 	if (!singleton.create(1))
 	{    //已经存在的
@@ -257,7 +259,9 @@ int main(int argc, char *argv[])
     //    sScreen.show();
     //}
 
+	LogInfo("[perf] MainWindow ctor begin");
 	MainWindow w;
+	LogInfo("[perf] MainWindow ctor end");
 
 #if 0
 
@@ -394,64 +398,64 @@ int main(int argc, char *argv[])
 	SetAdminCode("666666");
     w.HideAction(false);
 
-	//LogInfo("step 1 success !");
+	LogInfo("step 1 success !");
 
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     w.showMaximized();
-	//LogInfo("step 2 success !");
+	LogInfo("step 2 success !");
 
 	w.LoadAllModel();
-	//LogInfo("step 3 success !");
+	LogInfo("step 3 success !");
 
 	w.ReadFilesAtLoad();//读取加工文件
-	//LogInfo("step 4 success !");
+	LogInfo("step 4 success !");
 
 	w.InitProductionTable();
-	//LogInfo("step 5 success !");
+	LogInfo("step 5 success !");
 
 	w.InitTwTable();
-	//LogInfo("step 6 success !");
+	LogInfo("step 6 success !");
 
 	w.ReadLanguageFile();
-	//LogInfo("step 7 success !");
+	LogInfo("step 7 success !");
 
 	//导入累加模型   1
 	w.LoadAccumulateModelsFromTheFile();
-	//LogInfo("step 8 success !");
+	LogInfo("step 8 success !");
 
 	//变换模型       2
 	w.ReBuildLmVectorAtLoad();
-	//LogInfo("step 9 success !");
+	LogInfo("step 9 success !");
 
 	w.ReBuildJMVectorAtLoad();
-	//LogInfo("step 10 success !");
+	LogInfo("step 10 success !");
 
 	w.ReadAsSpecialReplaceModelFile();
 
 	//设置组和STLs关系
 	w.SetGroupToSTLS();
-	//LogInfo("step 11 success !");
+	LogInfo("step 11 success !");
 
 	//更新模型位置   3
 	w.ResetModelPosByInitPosFile();
-	//LogInfo("step 12 success !");
+	LogInfo("step 12 success !");
 
 	//加载普通用户文件模型
 	w.ReadNormalUserModels();
-	//LogInfo("step 13 success !");
+	LogInfo("step 13 success !");
 
 	w.ResumeAllModelColor();
-	//LogInfo("step 14 success !");
+	LogInfo("step 14 success !");
 
 	w.ReadModelDiplayNameFile();
-	//LogInfo("step 15 success !");
+	LogInfo("step 15 success !");
 
 	w.SetViewLookAtByFileValue();
-	//LogInfo("step 16 success !");
+	LogInfo("step 16 success !");
 
 	w.ReadModelColorFileValue();
-	//LogInfo("step 17 success !");
+	LogInfo("step 17 success !");
 
 	// 刷新普通用户界面设置
 	w.RefreshNormalUserSetting();
