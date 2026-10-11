@@ -2,11 +2,10 @@
 
 基于 **Qt 4 + OpenSceneGraph** 的弯管机三维加工模拟软件。
 
-构建弯管机三维数字模型（轮模、夹模、机头、小车、导架等），载入加工文件
-（YBC 数据 / 弯弧流程 / 生产参数表 / G 代码），按加工文件驱动整机动画模拟弯管加工
-全过程（直管/弯管逐段生成、左右弯切换、多机头加工），过程中**实时碰撞检测**
-（基于 Bullet Physics 的碰撞接口，模具与管子均参与），发现碰撞后可调整加工参数并
-重新模拟验证，最终可将加工成型的管子导出为 STL。
+模拟弯管机加工弯管的动画过程：先根据**配置文件**构造加工场景（机头、轮模、夹模、机台按设计文件运行），
+再根据**加工文件**逐步加工弯管（直管/弯管逐段生成、左右弯切换、多机头加工）；加工过程中实时检测
+**机头、轮模、夹模、机台、管件**之间的干涉碰撞（基于 Bullet Physics），一旦碰撞立即**报警**并可
+**给出改进加工意见**（自动调参/人工调参后重新模拟验证），最终可将加工成型的管子导出为 STL。
 
 > English summary: a Qt4 + OpenSceneGraph based 3D simulation system for rotary-draw
 > pipe bending machines. It builds the machine's digital model, loads machining files,
