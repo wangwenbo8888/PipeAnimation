@@ -9,10 +9,10 @@
 
 using namespace std;
 
-#define A 0x67452301
-#define B 0xefcdab89
-#define C 0x98badcfe
-#define D 0x10325476
+#define MD5_A 0x67452301
+#define MD5_B 0xefcdab89
+#define MD5_C 0x98badcfe
+#define MD5_D 0x10325476
 
 const char str16[] = "0123456789abcdef";
 
@@ -43,33 +43,33 @@ const unsigned int T[] = {
 		unsigned int tempA, tempB, tempC, tempD, strlength;
 	public:
 		MD5() {
-			tempA = A;
-			tempB = B;
-			tempC = C;
-			tempD = D;
+			tempA = MD5_A;
+			tempB = MD5_B;
+			tempC = MD5_C;
+			tempD = MD5_D;
 			strlength = 0;
 		}
-		// F函数
+		// F????
 		unsigned int F(unsigned int b, unsigned int c, unsigned int d) {
 			return (b & c) | ((~b) & d);
 		}
-		// G函数
+		// G????
 		unsigned int G(unsigned int b, unsigned int c, unsigned int d) {
 			return (b & d) | (c & (~d));
 		}
-		// H函数
+		// H????
 		unsigned int H(unsigned int b, unsigned int c, unsigned int d) {
 			return b ^ c ^ d;
 		}
-		// I函数
+		// I????
 		unsigned int I(unsigned int b, unsigned int c, unsigned int d) {
 			return c ^ (b | (~d));
 		}
-		// 移位操作函数
+		// ??λ????????
 		unsigned int shift(unsigned int a, unsigned int n) {
 			return (a << n) | (a >> (32 - n));
 		}
-		// 编码函数
+		// ??????
 		string encode(string src) {
 			vector<unsigned int> rec = padding(src);
 			for(unsigned int i = 0; i < strlength/16; i++) {
@@ -81,7 +81,7 @@ const unsigned int T[] = {
 			}
 			return format(tempA) + format(tempB) + format(tempC) + format(tempD);
 		}
-		// 循环压缩
+		// ??????
 		void iterateFunc(unsigned int* X, int size = 16) {
 			unsigned int a = tempA,
 				b = tempB,
@@ -91,22 +91,22 @@ const unsigned int T[] = {
 				g, k;
 			for(int i = 0; i < 64; i++) {
 				if(i < 16) {
-					// F迭代
+					// F????
 					g = F(b, c, d);
 					k = i;
 				}
 				else if(i < 32) {
-					// G迭代
+					// G????
 					g = G(b, c, d);
 					k = (1 + 5*i) % 16;
 				}
 				else if(i < 48) {
-					// H迭代
+					// H????
 					g = H(b, c, d);
 					k = (5 + 3*i) % 16;
 				}
 				else {
-					// I迭代
+					// I????
 					g = I(b, c, d);
 					k = (7*i) % 16;
 				}
@@ -121,23 +121,23 @@ const unsigned int T[] = {
 			tempC += c;
 			tempD += d;
 		}
-		// 填充字符串
+		// ????????
 		vector<unsigned int> padding(string src) {
-			// 以512位,64个字节为一组
+			// ??512λ,64?????????
 			unsigned int num = ((src.length() + 8) / 64) + 1;
 			vector<unsigned int> rec(num*16);
 			strlength = num*16;
 			for(unsigned int i = 0; i < src.length(); i++){
-				// 一个unsigned int对应4个字节，保存4个字符信息
+				// ???unsigned int???4??????????4????????
 				rec[i>>2] |= (int)(src[i]) << ((i % 4) * 8);
 			}
-			// 补充1000...000
+			// ????1000...000
 			rec[src.length() >> 2] |= (0x80 << ((src.length() % 4)*8));
-			// 填充原文长度
+			// ?????????
 			rec[rec.size()-2] = (src.length() << 3);
 			return rec;
 		}
-		// 整理输出
+		// ???????
 		string format(unsigned int num) {
 			string res = "";
 			unsigned int base = 1 << 8;
