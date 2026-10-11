@@ -3,8 +3,11 @@ SET(EXE_NAME osg3DViewer)
 
 SET(MYAPP_VERSION "1.0.0")
 
-FILE(GLOB include_file_list "./*.h" "./3rdparty/qtpropertybrowser/*.h" "./3rdparty/osgWorks/osgwTools/*.h")
-FILE(GLOB cpp_file_list "./*.cpp" "./3rdparty/qtpropertybrowser/*.cpp" "./3rdparty/osgWorks/osgwTools/*.cpp")
+FILE(GLOB include_file_list "./*.h" "./CollisionDetect/*.h" "./3rdparty/qtpropertybrowser/*.h" "./3rdparty/osgWorks/osgwTools/*.h")
+FILE(GLOB cpp_file_list "./*.cpp" "./CollisionDetect/*.cpp" "./3rdparty/qtpropertybrowser/*.cpp" "./3rdparty/osgWorks/osgwTools/*.cpp")
+
+# MainWindow2.h is an unused backup copy of MainWindow.h - must stay out of moc
+LIST(FILTER include_file_list EXCLUDE REGEX "MainWindow2\\.h$")
 FILE(GLOB resource_file_list "../../res/*.qrc")
 FILE(GLOB ui_file_list "../../ui/*.ui")
 FILE(GLOB trans_file_list "../../lang/*.ts")
@@ -34,7 +37,7 @@ QT4_ADD_RESOURCES   (APP_RESOURCES ${RESOURCES})
 #QT4_AUTOMOC         (${SOURCES})
 QT4_ADD_TRANSLATION (APP_QM ${TRANSLATIONS})
 
-INCLUDE_DIRECTORIES(include "./" "./3rdparty/qtpropertybrowser" "./3rdparty/osgWorks" ${PROJECT_BINARY_DIR}/src/${PROJECT_NAME})
+INCLUDE_DIRECTORIES(include "./" "./CollisionDetect" "./3rdparty/qtpropertybrowser" "./3rdparty/osgWorks" ${PROJECT_BINARY_DIR}/src/${PROJECT_NAME})
 
 # Prebuilt custom SDK: osgDragger / osgVirtualAssembly / osgCollisionDetection / Utils (Win32)
 SET(OSGVA_SDK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/osgVirtualAssembly)
@@ -63,9 +66,15 @@ IF (MSVC)
     # Turn off deprecation warnings
     ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
     ADD_DEFINITIONS(-D_CRT_NONSTDC_NO_WARNINGS)
+    # Keep debug info in Release builds (PDB) for crash diagnosis
+    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
+    SET(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /DEBUG")
+    # Statically link the CRT to avoid loader conflicts with the prebuilt
+    # VS2010-era runtime DLLs (Qt4 / OSG 3.4.1 / custom SDK) in the same folder
+    STRING(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    STRING(REPLACE "/MDd" "/MTd" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
 ENDIF(MSVC)
 
-#ADD_DEFINITIONS(-DOSG3DVIEWER_LIBRARY)
 ADD_EXECUTABLE(${EXE_NAME} WIN32 ${SOURCES} ${HEADERS} ${APP_UIS_H} ${APP_MOC_SRCS} ${APP_RESOURCES} ${APP_QM})
 
 TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES}
@@ -83,7 +92,8 @@ TARGET_LINK_LIBRARIES(${EXE_NAME} ${QT_LIBRARIES}
     # prebuilt custom SDK (Win32 x86)
     debug ${OSGVA_SDK_DIR}/lib/osgDraggerd.lib            optimized ${OSGVA_SDK_DIR}/lib/osgDragger.lib
     debug ${OSGVA_SDK_DIR}/lib/osgVirtualAssemblyd.lib    optimized ${OSGVA_SDK_DIR}/lib/osgVirtualAssembly.lib
-    debug ${OSGVA_SDK_DIR}/lib/osgCollisionDetectiond.lib optimized ${OSGVA_SDK_DIR}/lib/osgCollisionDetection.lib)
+    debug ${OSGVA_SDK_DIR}/lib/osgCollisionDetectiond.lib optimized ${OSGVA_SDK_DIR}/lib/osgCollisionDetection.lib
+    winmm)
 
 
 IF(WIN32)
@@ -125,6 +135,6 @@ IF(WIN32)
         ADD_CUSTOM_COMMAND(TARGET ${EXE_NAME} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${OSGVA_SDK_DIR}/lib/${_dll}.dll"
-                "${EXECUTABLE_OUTPUT_PATH}")
+                "$<TARGET_FILE_DIR:${EXE_NAME}>")
     ENDFOREACH()
 ENDIF(WIN32)
